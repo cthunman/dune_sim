@@ -1,13 +1,13 @@
 import { createEmptyInfluenceMap, fremenFactionType } from "./factions";
 
 export type Game = {
-    numPlayers: Number;
+    numPlayers: number;
     stateHistory: GameState[];
 }
 
 export type GameState = {
-    currentPlayer: Number;
-    playerMap: Map<Number, PlayerState>;
+    currentPlayer: number;
+    playerMap: Map<number, PlayerState>;
 }
 export function createInitialGameState(playerStates: PlayerState[]): GameState {
     let playerMap = new Map<number, PlayerState>();
@@ -49,7 +49,7 @@ export type Card = {
     destinationTypes: LocationType[]
     agentEffect: GameEffect;
     revealEffect: GameEffect;
-    persuasionScore: Number;
+    persuasionScore: number;
 };
 
 export type Faction = {
@@ -74,25 +74,25 @@ export type IntrigueCard = {
 }
 
 export type PlayerState = {
-    seatNumber: Number;
+    seatNumber: number;
     leader: Leader;
-    numAgents: Number;
+    numAgents: number;
     agentLocations: BoardLocation[];
     deck: Card[];
     hand: Card[];
     discard: Card[];
     trash: Card[];
     intrigueCardList: IntrigueCard[];
-    influenceMap: Map<Faction, Number>;
-    allianceMap: Map<Faction, Number>;
-    resources: Map<Resource, Number>;
-    soldiersInGarrison: Number;
-    soldiersInBattlefield: Number;
-    victoryPointCount: Number;
+    influenceMap: Map<Faction, number>;
+    allianceMap: Map<Faction, number>;
+    resources: Map<Resource, number>;
+    soldiersInGarrison: number;
+    soldiersInBattlefield: number;
+    victoryPointCount: number;
 }
 
 export type BoardLocation = {
     name: String;
-    resourceCost: Map<Resource, Number>;
+    resourceCost: Map<Resource, number>;
     locationType: LocationType;
 };

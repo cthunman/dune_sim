@@ -6,7 +6,7 @@ import _ from 'lodash';
 // Sample initial game setup
 const boardLocation: BoardLocation = {
     name: "Arrakeen",
-    resourceCost: new Map<Resource, Number>([
+    resourceCost: new Map<Resource, number>([
         ["spice", 2]
     ]),
     locationType: fremenFactionType,
