@@ -1,45 +1,50 @@
-type Game = {
+import { createEmptyInfluenceMap, fremenFactionType } from "./factions";
+
+export type Game = {
     numPlayers: Number;
     stateHistory: GameState[];
 }
 
-type GameState = {
+export type GameState = {
     currentPlayer: Number;
-    playerMap: Map<Number, Player>;
+    playerMap: Map<Number, PlayerState>;
+}
+export function createInitialGameState(playerStates: PlayerState[]): GameState {
+    let playerMap = new Map<number, PlayerState>();
+    playerStates.forEach((playerState, index) => {
+        playerMap.set(index, playerState);
+    });
+    return {
+        currentPlayer: 0,
+        playerMap: playerMap
+    };
 }
 
-type Action = {
-    actionType: string;
-    actionValue: number;
-};
-type AgentAction = {
+export type AgentAction = {
     cardPlayed: Card;
     targetLocation: Location;
     decisionMap: Map<Choice, Boolean>;
 }
 
-type Leader = {
+export type Leader = {
     name: String;
     leaderEffect: GameEffect;
     signetRingEffect: GameEffect;
 };
 
-type GameEffect = {
-    gameEffect: (game: GameState) => GameState;
+export type GameEffect = (game: GameState) => GameState;
+// currentPlayer: Player;
+// gain resource
+// spend resource
+// gain soldiers
+// deploy soldiers from barracks to battlefield
 
-    // currentPlayer: Player;
-    // gain resource
-    // spend resource
-    // gain soldiers
-    // deploy soldiers from barracks to battlefield
-}
-
-type Choice = {
+export type Choice = {
     // This may need to be enhanced for "trash any card".
     choice: (decision: Boolean) => GameEffect;
 }
 
-type Card = {
+export type Card = {
     name: String;
     destinationTypes: LocationType[]
     agentEffect: GameEffect;
@@ -47,21 +52,28 @@ type Card = {
     persuasionScore: Number;
 };
 
-type Faction = {
+export type Faction = {
     name: String;
 };
 
-type Resource = "spice" | "solari" | "water";
-type BoardColor = "yellow" | "purple" | "green";
-
-type LocationType = Faction | BoardColor;
-
-type IntrigueCard = {
-    cardType: "plot" | "combat" | "endgame";
-    effects: () => Action[];
+export type Resource = "spice" | "solari" | "water";
+export function createEmptyResourceMap(): Map<Resource, number> {
+    let resourceMap = new Map<Resource, number>();
+    resourceMap.set("spice", 0);
+    resourceMap.set("solari", 0);
+    resourceMap.set("water", 0);
+    return resourceMap;
 }
 
-type Player = {
+export type BoardColor = "yellow" | "purple" | "green";
+
+export type LocationType = Faction | BoardColor;
+
+export type IntrigueCard = {
+    cardType: "plot" | "combat" | "endgame";
+}
+
+export type PlayerState = {
     seatNumber: Number;
     leader: Leader;
     numAgents: Number;
@@ -79,31 +91,8 @@ type Player = {
     victoryPointCount: Number;
 }
 
-type BoardLocation = {
+export type BoardLocation = {
     name: String;
     resourceCost: Map<Resource, Number>;
     locationType: LocationType;
-    effect: () => Action[];
 };
-
-const fremenFaction: Faction = {
-    name: "Fremen"
-};
-const fremenFactionType: LocationType = fremenFaction;
-
-const boardLocation: BoardLocation = {
-    name: "Arrakeen",
-    resourceCost: new Map<Resource, Number>([
-        ["spice", 2]
-    ]),
-    locationType: fremenFactionType,
-    effect: () => [
-        {
-            actionType: "Gain Spice",
-            actionValue: 5
-        }
-    ]
-};
-
-console.log(boardLocation);
-console.log(boardLocation.effect());

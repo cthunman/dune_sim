@@ -1,0 +1,3 @@
+type SampleState = {
+    positions: Number[];
+}
