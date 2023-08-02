@@ -20,11 +20,11 @@ export function createInitialGameState(playerStates: PlayerState[]): GameState {
     };
 }
 
-export type AgentAction = {
-    cardPlayed: Card;
-    targetLocation: Location;
-    decisionMap: Map<Choice, Boolean>;
-}
+// export type AgentAction = {
+//     cardPlayed: Card;
+//     targetLocation: Location;
+//     decisionMap: Map<Choice, Boolean>;
+// }
 
 export type Leader = {
     name: String;
