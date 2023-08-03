@@ -1,5 +1,3 @@
-import { createEmptyInfluenceMap, fremenFactionType } from "./factions";
-
 export type Game = {
     numPlayers: number;
     stateHistory: GameState[];
@@ -19,12 +17,6 @@ export function createInitialGameState(playerStates: PlayerState[]): GameState {
         playerMap: playerMap
     };
 }
-
-// export type AgentAction = {
-//     cardPlayed: Card;
-//     targetLocation: Location;
-//     decisionMap: Map<Choice, Boolean>;
-// }
 
 export type Leader = {
     name: String;
@@ -52,10 +44,6 @@ export type Card = {
     persuasionScore: number;
 };
 
-export type Faction = {
-    name: String;
-};
-
 export type Resource = "spice" | "solari" | "water";
 export function createEmptyResourceMap(): Map<Resource, number> {
     let resourceMap = new Map<Resource, number>();
@@ -65,9 +53,11 @@ export function createEmptyResourceMap(): Map<Resource, number> {
     return resourceMap;
 }
 
-export type BoardColor = "yellow" | "purple" | "green";
-
-export type LocationType = Faction | BoardColor;
+// export type BoardColor = "yellow" | "purple" | "green";
+export type LocationType = "yellow" | "purple" | "green" | "beneGesserit" | "fremen" | "emperor" | "guild";
+export type Faction = {
+    name: String;
+};
 
 export type IntrigueCard = {
     cardType: "plot" | "combat" | "endgame";
