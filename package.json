@@ -1,10 +1,10 @@
 {
   "name": "dune_sim",
-  "module": "index.ts",
+  "module": "test.ts",
   "type": "module",
   "devDependencies": {
     "@types/lodash": "^4.14.196",
-    "bun-types": "latest"
+    "bun-types": "^0.7.2"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
