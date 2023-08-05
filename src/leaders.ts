@@ -1,10 +1,10 @@
-import { GameEffect, GameState } from "./types";
+import { GameEffect, GameState, Leader } from "./types";
 
-export type Leader = {
-    name: String;
-    leaderEffect: GameEffect;
-    signetRingEffect: GameEffect;
-};
+// export type Leader = {
+//     name: String;
+//     leaderEffect: GameEffect;
+//     signetRingEffect: GameEffect;
+// };
 
 export const arianaThorvald: Leader = {
     name: "Countess Ariana Thorvald",
@@ -58,6 +58,9 @@ export const ilbanRichese: Leader = {
 
 export const earlThorvald: Leader = {
     name: "Earl Memnon Thorvald",
+    gameStartEffect: function (game: GameState): GameState {
+        throw new Error("Function not implemented.");
+    },
     leaderEffect: function (game: GameState): GameState {
         throw new Error("Function not implemented.");
     },

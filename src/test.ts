@@ -8,7 +8,7 @@ import { arrakeen } from "./locations";
 const boardLocation = arrakeen
 
 const player1: PlayerState = {
-    seatNumber: 1,
+    // seatNumber: 1,
     leader: earlThorvald,
     numAgents: 2,
     agentLocations: [],

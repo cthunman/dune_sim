@@ -1,3 +1,5 @@
+import { createEmptyInfluenceMap } from "./factions";
+
 export type Game = {
     numPlayers: number;
     stateHistory: GameState[];
@@ -6,6 +8,25 @@ export type Game = {
 export type GameState = {
     currentPlayer: number;
     playerMap: Map<number, PlayerState>;
+}
+
+export type PlayerState = {
+    leader: Leader;
+    numAgents: number;
+    mentatInPlay: number;
+    swordmasterInPlay: number;
+    agentLocations: BoardLocation[];
+    deck: Card[];
+    hand: Card[];
+    discard: Card[];
+    trash: Card[];
+    intrigueCardList: IntrigueCard[];
+    influenceMap: Map<Faction, number>;
+    allianceMap: Map<Faction, number>;
+    resources: Map<Resource, number>;
+    soldiersInGarrison: number;
+    soldiersInBattlefield: number;
+    victoryPointCount: number;
 }
 
 export function createInitialGameState(playerStates: PlayerState[]): GameState {
@@ -19,8 +40,32 @@ export function createInitialGameState(playerStates: PlayerState[]): GameState {
     };
 }
 
+export function createInitialPlayerState(leader: Leader): PlayerState {
+
+    const playerState: PlayerState = {
+        leader: leader,
+        numAgents: 2,
+        mentatInPlay: 0,
+        swordmasterInPlay: 0,
+        agentLocations: [],
+        deck: [],
+        hand: [],
+        discard: [],
+        trash: [],
+        intrigueCardList: [],
+        influenceMap: createEmptyInfluenceMap(),
+        allianceMap: createEmptyInfluenceMap(),
+        resources: createEmptyResourceMap(),
+        soldiersInGarrison: 0,
+        soldiersInBattlefield: 0,
+        victoryPointCount: 0
+    }
+    return playerState
+}
+
 export type Leader = {
     name: String;
+    gameStartEffect: GameEffect;
     leaderEffect: GameEffect;
     signetRingEffect: GameEffect;
 };
@@ -70,23 +115,6 @@ export type PlayerAgentTurn = {
     intrigueCardsPlayed: IntrigueCard[];
 }
 
-export type PlayerState = {
-    seatNumber: number;
-    leader: Leader;
-    numAgents: number;
-    agentLocations: BoardLocation[];
-    deck: Card[];
-    hand: Card[];
-    discard: Card[];
-    trash: Card[];
-    intrigueCardList: IntrigueCard[];
-    influenceMap: Map<Faction, number>;
-    allianceMap: Map<Faction, number>;
-    resources: Map<Resource, number>;
-    soldiersInGarrison: number;
-    soldiersInBattlefield: number;
-    victoryPointCount: number;
-}
 
 export type BoardLocation = {
     name: String;
