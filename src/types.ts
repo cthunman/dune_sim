@@ -3,6 +3,9 @@ import { createEmptyInfluenceMap } from "./factions";
 export type Game = {
     numPlayers: number;
     stateHistory: GameState[];
+    conflictDeck: ImperiumCard[];
+    availableConflictCards: ImperiumCard[];
+    intrigueDeck: IntrigueCard[];
 }
 
 export type GameState = {
@@ -16,10 +19,10 @@ export type PlayerState = {
     mentatInPlay: number;
     swordmasterInPlay: number;
     agentLocations: BoardLocation[];
-    deck: Card[];
-    hand: Card[];
-    discard: Card[];
-    trash: Card[];
+    deck: ImperiumCard[];
+    hand: ImperiumCard[];
+    discard: ImperiumCard[];
+    trash: ImperiumCard[];
     intrigueCardList: IntrigueCard[];
     influenceMap: Map<Faction, number>;
     allianceMap: Map<Faction, number>;
@@ -41,7 +44,6 @@ export function createInitialGameState(playerStates: PlayerState[]): GameState {
 }
 
 export function createInitialPlayerState(leader: Leader): PlayerState {
-
     const playerState: PlayerState = {
         leader: leader,
         numAgents: 2,
@@ -82,7 +84,7 @@ export type Choice = {
     choice: (decision: Boolean) => GameEffect;
 }
 
-export type Card = {
+export type ImperiumCard = {
     name: String;
     destinationTypes: LocationType[]
     agentEffect: GameEffect;
@@ -110,7 +112,7 @@ export type IntrigueCard = {
 }
 
 export type PlayerAgentTurn = {
-    cardPlayed: Card;
+    cardPlayed: ImperiumCard;
     agentLocation: BoardLocation;
     intrigueCardsPlayed: IntrigueCard[];
 }
