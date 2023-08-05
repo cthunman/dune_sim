@@ -7,6 +7,7 @@ export type GameState = {
     currentPlayer: number;
     playerMap: Map<number, PlayerState>;
 }
+
 export function createInitialGameState(playerStates: PlayerState[]): GameState {
     let playerMap = new Map<number, PlayerState>();
     playerStates.forEach((playerState, index) => {
@@ -53,7 +54,6 @@ export function createEmptyResourceMap(): Map<Resource, number> {
     return resourceMap;
 }
 
-// export type BoardColor = "yellow" | "purple" | "green";
 export type LocationType = "yellow" | "purple" | "green" | "beneGesserit" | "fremen" | "emperor" | "guild";
 export type Faction = {
     name: String;
@@ -61,6 +61,13 @@ export type Faction = {
 
 export type IntrigueCard = {
     cardType: "plot" | "combat" | "endgame";
+    effect: GameEffect;
+}
+
+export type PlayerAgentTurn = {
+    cardPlayed: Card;
+    agentLocation: BoardLocation;
+    intrigueCardsPlayed: IntrigueCard[];
 }
 
 export type PlayerState = {
