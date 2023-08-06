@@ -1,7 +1,8 @@
 import { earlThorvald } from "./leaders";
-import { GameEffect, GameState, PlayerState, Resource, createEmptyResourceMap, createInitialGameState, createInitialPlayerState } from "./types";
+import { GameEffect, GameState, PlayerState, Resource } from "./types";
 import _ from 'lodash';
 import { arrakeen } from "./locations";
+import { createInitialGameState, createInitialPlayerState } from "./util";
 
 const boardLocation = arrakeen;
 
