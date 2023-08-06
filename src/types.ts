@@ -50,8 +50,10 @@ export type Choice = {
   // Which card to trash
   // How many new soldiers to send to field
   // How many soldiers to move from garrison to field
-  choice: (decision: Boolean) => GameEffect;
+  choice: (optionList: Option[]) => GameEffect;
 }
+
+export type Option = {}
 
 export type ImperiumCard = {
   name: String;
