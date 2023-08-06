@@ -1,29 +1,29 @@
 import { Faction } from "./types";
 
 export const fremenFaction: Faction = {
-    name: "Fremen"
+  name: "Fremen"
 };
 
 export const beneGesseritFaction: Faction = {
-    name: "Bene Gesserit"
+  name: "Bene Gesserit"
 };
 
 export const guildFaction: Faction = {
-    name: "Guild"
+  name: "Guild"
 };
 
 export const emperorFaction: Faction = {
-    name: "Emperor"
+  name: "Emperor"
 };
 
 // Generate empty faction map.
 export const fullFactionList = [fremenFaction, beneGesseritFaction, guildFaction, emperorFaction];
 export function createEmptyInfluenceMap(): Map<Faction, number> {
-    const influenceMap = new Map<Faction, number>();
+  const influenceMap = new Map<Faction, number>();
 
-    for (const faction of fullFactionList) {
-        influenceMap.set(faction, 0);
-    }
+  for (const faction of fullFactionList) {
+    influenceMap.set(faction, 0);
+  }
 
-    return influenceMap;
+  return influenceMap;
 }

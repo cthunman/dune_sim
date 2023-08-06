@@ -1,6 +1,7 @@
 import { GameState, ImperiumCard } from "./types";
+import { getCurrentPlayer } from "./util";
 
-const convincingArgumentCard: ImperiumCard = {
+export const convincingArgumentCard: ImperiumCard = {
   name: "Convincing Argument",
   destinationTypes: [],
   agentEffect: function (game: GameState): GameState {
@@ -9,10 +10,13 @@ const convincingArgumentCard: ImperiumCard = {
   revealEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  persuasionScore: 0
+  persuasionScore: 0,
+  pickupEffect: function (game: GameState): GameState {
+    throw new Error("Function not implemented.");
+  }
 };
 
-const daggerCard: ImperiumCard = {
+export const daggerCard: ImperiumCard = {
   name: "Dagger",
   destinationTypes: [],
   agentEffect: function (game: GameState): GameState {
@@ -21,10 +25,13 @@ const daggerCard: ImperiumCard = {
   revealEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  persuasionScore: 0
+  persuasionScore: 0,
+  pickupEffect: function (game: GameState): GameState {
+    throw new Error("Function not implemented.");
+  }
 };
 
-const diplomacyCard: ImperiumCard = {
+export const diplomacyCard: ImperiumCard = {
   name: "Diplomacy",
   destinationTypes: [],
   agentEffect: function (game: GameState): GameState {
@@ -33,10 +40,13 @@ const diplomacyCard: ImperiumCard = {
   revealEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  persuasionScore: 0
+  persuasionScore: 0,
+  pickupEffect: function (game: GameState): GameState {
+    throw new Error("Function not implemented.");
+  }
 };
 
-const duneTheDesertPlanetCard: ImperiumCard = {
+export const duneTheDesertPlanetCard: ImperiumCard = {
   name: "Dune The Desert Planet",
   destinationTypes: [],
   agentEffect: function (game: GameState): GameState {
@@ -45,10 +55,13 @@ const duneTheDesertPlanetCard: ImperiumCard = {
   revealEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  persuasionScore: 0
+  persuasionScore: 0,
+  pickupEffect: function (game: GameState): GameState {
+    throw new Error("Function not implemented.");
+  }
 };
 
-const reconnaissanceCard: ImperiumCard = {
+export const reconnaissanceCard: ImperiumCard = {
   name: "Reconnaissance",
   destinationTypes: [],
   agentEffect: function (game: GameState): GameState {
@@ -57,10 +70,13 @@ const reconnaissanceCard: ImperiumCard = {
   revealEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  persuasionScore: 0
+  persuasionScore: 0,
+  pickupEffect: function (game: GameState): GameState {
+    throw new Error("Function not implemented.");
+  }
 };
 
-const seekAlliesCard: ImperiumCard = {
+export const seekAlliesCard: ImperiumCard = {
   name: "Seek Allies",
   destinationTypes: [],
   agentEffect: function (game: GameState): GameState {
@@ -69,17 +85,25 @@ const seekAlliesCard: ImperiumCard = {
   revealEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  persuasionScore: 0
+  persuasionScore: 0,
+  pickupEffect: function (game: GameState): GameState {
+    throw new Error("Function not implemented.");
+  }
 };
 
-const signetRingCard: ImperiumCard = {
+export const signetRingCard: ImperiumCard = {
   name: "Signet Ring",
   destinationTypes: [],
   agentEffect: function (game: GameState): GameState {
-    throw new Error("Function not implemented.");
+    const currentPlayer = getCurrentPlayer(game);
+    const leader = currentPlayer.leader;
+    return leader.signetRingEffect(game);
   },
   revealEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  persuasionScore: 0
+  persuasionScore: 0,
+  pickupEffect: function (game: GameState): GameState {
+    return game;
+  }
 };
