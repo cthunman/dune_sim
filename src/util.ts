@@ -1,12 +1,53 @@
-import { convincingArgumentCard, daggerCard, diplomacyCard, duneTheDesertPlanetCard, reconnaissanceCard, seekAlliesCard, signetRingCard } from "./cards";
-import { Faction, GameState, ImperiumCard, Leader, PlayerState, Resource, fullFactionList } from "./types";
+import _ from "lodash";
+import {
+  convincingArgumentCard,
+  daggerCard,
+  diplomacyCard,
+  duneTheDesertPlanetCard,
+  reconnaissanceCard,
+  seekAlliesCard,
+  signetRingCard
+} from "./cards";
+import {
+  Faction,
+  GameEffect,
+  GameState,
+  ImperiumCard,
+  Leader,
+  PlayerState,
+  Resource,
+  fullFactionList
+} from "./types";
+
+export function cloneAndModifyGameState(
+  gameState: GameState,
+  modifyFunction: GameEffect
+): GameState {
+  let clonedGameState: GameState = _.cloneDeep(gameState);
+  clonedGameState = modifyFunction(clonedGameState)
+  return clonedGameState;
+}
+
+export function applyResourceChangesToCurrentPlayer(resourceMap: Map<Resource, number>) {
+  return function (game: GameState): GameState {
+    const currentPlayer = game.playerMap.get(game.currentPlayer);
+    if (!currentPlayer) {
+      throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
+    }
+    for (let [resource, amount] of resourceMap.entries()) {
+      let currentAmount = currentPlayer.resources.get(resource) || 0;
+      currentPlayer.resources.set(resource, currentAmount + amount);
+    }
+    return game;
+  };
+}
 
 export function getCurrentPlayer(game: GameState): PlayerState {
   const currentPlayer = game.playerMap.get(game.currentPlayer);
   if (!currentPlayer) {
-    throw new Error("Game state invalid.")
+    throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
   }
-  return currentPlayer
+  return currentPlayer;
 }
 
 export function createInitialGameState(playerStates: PlayerState[]): GameState {
@@ -34,7 +75,7 @@ export function createInitialPlayerState(leader: Leader): PlayerState {
     intrigueCardList: [],
     influenceMap: createEmptyInfluenceMap(),
     allianceMap: createEmptyInfluenceMap(),
-    resources: createEmptyResourceMap(),
+    resources: createInitialResourceMap(),
     soldiersInGarrison: 0,
     soldiersInBattlefield: 0,
     victoryPointCount: 0
@@ -70,15 +111,23 @@ export function createEmptyResourceMap(): Map<Resource, number> {
   return resourceMap;
 }
 
+export function createInitialResourceMap(): Map<Resource, number> {
+  let resourceMap = new Map<Resource, number>();
+  resourceMap.set("spice", 0);
+  resourceMap.set("solari", 0);
+  resourceMap.set("water", 1);
+  return resourceMap;
+}
+
 // Fisher-Yates (Knuth) shuffle algorithm.
 export function shuffle<T>(array: T[]): T[] {
   const shuffled = array.slice();  // Create a copy of the original array
   for (let i = shuffled.length - 1; i > 0; i--) {
-      // Generate a random index between 0 and i (inclusive)
-      const j = Math.floor(Math.random() * (i + 1));
-      
-      // Swap elements at i and j
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    // Generate a random index between 0 and i (inclusive)
+    const j = Math.floor(Math.random() * (i + 1));
+
+    // Swap elements at i and j
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;
 }
