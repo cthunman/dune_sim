@@ -1,4 +1,4 @@
-import { GameEffect, GameState, Leader } from "./types";
+import { GameEffect, GameState, Leader, PlayerState } from "./types";
 
 // export type Leader = {
 //     name: String;
@@ -14,7 +14,7 @@ export const arianaThorvald: Leader = {
   signetRingEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  gameStartEffect: function (game: GameState): GameState {
+  gameStartEffect: function (game: PlayerState): PlayerState {
     throw new Error("Function not implemented.");
   }
 }
@@ -27,7 +27,7 @@ export const glossuRabban: Leader = {
   signetRingEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  gameStartEffect: function (game: GameState): GameState {
+  gameStartEffect: function (game: PlayerState): PlayerState {
     throw new Error("Function not implemented.");
   }
 }
@@ -40,7 +40,7 @@ export const baronHarkonnen: Leader = {
   signetRingEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  gameStartEffect: function (game: GameState): GameState {
+  gameStartEffect: function (game: PlayerState): PlayerState {
     throw new Error("Function not implemented.");
   }
 }
@@ -53,7 +53,7 @@ export const paulAtreides: Leader = {
   signetRingEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  gameStartEffect: function (game: GameState): GameState {
+  gameStartEffect: function (game: PlayerState): PlayerState {
     throw new Error("Function not implemented.");
   }
 }
@@ -66,21 +66,21 @@ export const ilbanRichese: Leader = {
   signetRingEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  gameStartEffect: function (game: GameState): GameState {
+  gameStartEffect: function (game: PlayerState): PlayerState {
     throw new Error("Function not implemented.");
   }
 }
 
 export const earlThorvald: Leader = {
   name: "Earl Memnon Thorvald",
-  gameStartEffect: function (game: GameState): GameState {
-    throw new Error("Function not implemented.");
-  },
   leaderEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
   signetRingEffect: function (game: GameState): GameState {
 
+    throw new Error("Function not implemented.");
+  },
+  gameStartEffect: function (game: PlayerState): PlayerState {
     throw new Error("Function not implemented.");
   }
 }
@@ -93,7 +93,7 @@ export const letoAtreides: Leader = {
   signetRingEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  gameStartEffect: function (game: GameState): GameState {
+  gameStartEffect: function (game: PlayerState): PlayerState {
     throw new Error("Function not implemented.");
   }
 }
@@ -106,7 +106,7 @@ export const helenaRichese: Leader = {
   signetRingEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  gameStartEffect: function (game: GameState): GameState {
+  gameStartEffect: function (game: PlayerState): PlayerState {
     throw new Error("Function not implemented.");
   }
 }

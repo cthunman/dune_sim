@@ -32,11 +32,12 @@ export type PlayerState = {
 
 export type Leader = {
   name: String;
-  gameStartEffect: GameEffect;
+  gameStartEffect: PlayerEffect;
   leaderEffect: GameEffect;
   signetRingEffect: GameEffect;
 };
 
+export type PlayerEffect = (game: PlayerState) => PlayerState;
 export type GameEffect = (game: GameState) => GameState;
 // currentPlayer: Player;
 // gain resource
@@ -46,6 +47,9 @@ export type GameEffect = (game: GameState) => GameState;
 
 export type Choice = {
   // This may need to be enhanced for "trash any card".
+  // Which card to trash
+  // How many new soldiers to send to field
+  // How many soldiers to move from garrison to field
   choice: (decision: Boolean) => GameEffect;
 }
 
@@ -60,9 +64,8 @@ export type ImperiumCard = {
 
 export type Resource = "spice" | "solari" | "water";
 export type LocationType = "yellow" | "purple" | "green" | "beneGesserit" | "fremen" | "emperor" | "guild";
-export type Faction = {
-  name: String;
-};
+export type Faction = "beneGesseritFaction" | "fremenFaction" | "emperorFaction" | "guildFaction";
+export const fullFactionList: Faction[] = ["beneGesseritFaction", "fremenFaction", "emperorFaction", "guildFaction"];
 
 export type IntrigueCard = {
   cardType: "plot" | "combat" | "endgame";

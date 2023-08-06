@@ -93,7 +93,7 @@ export const seekAlliesCard: ImperiumCard = {
 
 export const signetRingCard: ImperiumCard = {
   name: "Signet Ring",
-  destinationTypes: [],
+  destinationTypes: ["yellow", "green", "purple"],
   agentEffect: function (game: GameState): GameState {
     const currentPlayer = getCurrentPlayer(game);
     const leader = currentPlayer.leader;
