@@ -40,7 +40,39 @@ function applyPlayerTurn(game: GameState, playerTurn: PlayerAgentTurn): GameStat
   }, game);
 }
 
-function isGameStateLegal(game: GameState): boolean {
+export function isGameStateLegal(game: GameState): boolean {
+  for (const [, player] of game.playerMap) {
+    // Check agent locations
+    if (player.agentLocations.length > player.numAgents + player.swordmasterInPlay + player.mentatInPlay) {
+      return false;
+    }
+    // Check all entries in influenceMap
+    for (const [, value] of player.influenceMap) {
+      if (value < 0) {
+        return false;
+      }
+    }
+    // Check all entries in allianceMap
+    for (const [, value] of player.allianceMap) {
+      if (value < 0) {
+        return false;
+      }
+    }
+    // Check all entries in resources
+    for (const [, value] of player.resources) {
+      if (value < 0) {
+        return false;
+      }
+    }
+    // Check soldiers in garrison and battlefield
+    if (player.soldiersInGarrison < 0 || player.soldiersInBattlefield < 0) {
+      return false;
+    }
+    // Check victory points
+    if (player.victoryPointCount < 0) {
+      return false;
+    }
+  }
   return true;
 }
 
@@ -54,3 +86,4 @@ console.log(initialState);
 const nextState = applyPlayerTurn(initialState, firstTurn)
 // console.log(getCurrentPlayer(initialState));
 console.log(nextState);
+console.log(isGameStateLegal(nextState));
