@@ -1,16 +1,16 @@
 import { IntrigueCard, Resource } from "./types";
 import { applyResourceChangesToCurrentPlayer } from "./util";
 
-export const gainTwoWater: IntrigueCard = {
+export const gainTwoWaterIntrigueCard: IntrigueCard = {
   cardType: "plot",
   effect: applyResourceChangesToCurrentPlayer(
     new Map<Resource, number>([
-      ["water", 2]
+      ["water", 3]
     ])
   )
 };
 
-export const gainThreeSolari: IntrigueCard = {
+export const gainThreeSolariIntrigueCard: IntrigueCard = {
   cardType: "plot",
   effect: applyResourceChangesToCurrentPlayer(
     new Map<Resource, number>([

@@ -1,12 +1,6 @@
 import _ from "lodash";
 import { GameEffect, GameState, Leader, PlayerState, Resource } from "./types";
-import { applyResourceChangesToCurrentPlayer } from "./util";
-
-// export type Leader = {
-//     name: String;
-//     leaderEffect: GameEffect;
-//     signetRingEffect: GameEffect;
-// };
+import { applyResourceChangesToCurrentPlayer, applySoldierChangeToGarrison } from "./util";
 
 export const arianaThorvald: Leader = {
   name: "Countess Ariana Thorvald",
@@ -26,9 +20,7 @@ export const glossuRabban: Leader = {
   leaderEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (game: GameState): GameState {
-    throw new Error("Function not implemented.");
-  },
+  signetRingEffect: applySoldierChangeToGarrison(1),
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
   }

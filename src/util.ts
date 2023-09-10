@@ -28,6 +28,28 @@ export function cloneAndModifyGameState(
   return clonedGameState;
 }
 
+export function applySoldierChangeToBattlefield(numSoldiers: number) {
+  return function (game: GameState): GameState {
+    const currentPlayer = game.playerMap.get(game.currentPlayer);
+    if (!currentPlayer) {
+      throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
+    }
+    currentPlayer.soldiersInBattlefield += numSoldiers;
+    return game;
+  };
+}
+
+export function applySoldierChangeToGarrison(numSoldiers: number) {
+  return function (game: GameState): GameState {
+    const currentPlayer = game.playerMap.get(game.currentPlayer);
+    if (!currentPlayer) {
+      throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
+    }
+    currentPlayer.soldiersInGarrison += numSoldiers;
+    return game;
+  };
+}
+
 export function applyResourceChangesToCurrentPlayer(resourceMap: Map<Resource, number>) {
   return function (game: GameState): GameState {
     const currentPlayer = game.playerMap.get(game.currentPlayer);
@@ -52,6 +74,12 @@ export function getCurrentPlayer(game: GameState): PlayerState {
 
 export function getNextPlayer(game: GameState): number {
   return (game.currentPlayer + 1) % game.playerMap.size;
+}
+
+export function advanceGameToNextPlayer(game: GameState): GameState {
+  const nextPlayer = getNextPlayer(game);
+  game.currentPlayer = nextPlayer;
+  return game
 }
 
 export function createInitialGameState(playerStates: PlayerState[]): GameState {

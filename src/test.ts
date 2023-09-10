@@ -1,27 +1,23 @@
 import { earlThorvald, glossuRabban, ilbanRichese, paulAtreides } from "./leaders";
-import { GameEffect, GameState, PlayerAgentTurn, PlayerState, Resource } from "./types";
+import { GameEffect, GameState, PlayerAgentTurn, PlayerState } from "./types";
 import _ from 'lodash';
 import { haggaBasin } from "./locations";
 import {
+  advanceGameToNextPlayer,
   cloneAndModifyGameState,
   createInitialGameState,
   createInitialPlayerState,
+  getNextPlayer,
 } from "./util";
 import { signetRingCard } from "./cards";
-import { gainThreeSolari, gainTwoWater } from "./intrigueCards";
+import { gainThreeSolariIntrigueCard } from "./intrigueCards";
 
 const p1: PlayerState = createInitialPlayerState(earlThorvald);
-const p2: PlayerState = createInitialPlayerState(paulAtreides);
-const p3: PlayerState = createInitialPlayerState(glossuRabban);
+const p2: PlayerState = createInitialPlayerState(glossuRabban);
+const p3: PlayerState = createInitialPlayerState(paulAtreides);
 const p4: PlayerState = createInitialPlayerState(ilbanRichese);
 
 const initialState: GameState = createInitialGameState([p1, p2, p3, p4]);
-
-const firstTurn: PlayerAgentTurn = {
-  cardPlayed: signetRingCard,
-  agentLocation: haggaBasin,
-  intrigueCardsPlayed: [gainThreeSolari, gainTwoWater]
-}
 
 function getGameEffectsFromPlayerTurn(playerTurn: PlayerAgentTurn): GameEffect[] {
   const gameEffectList: GameEffect[] = [];
@@ -35,6 +31,7 @@ function getGameEffectsFromPlayerTurn(playerTurn: PlayerAgentTurn): GameEffect[]
 
 function applyPlayerTurn(game: GameState, playerTurn: PlayerAgentTurn): GameState {
   const gameEffectList: GameEffect[] = getGameEffectsFromPlayerTurn(playerTurn);
+  gameEffectList.push(advanceGameToNextPlayer);
   return gameEffectList.reduce((currentGameState, gameEffect) => {
     return cloneAndModifyGameState(currentGameState, gameEffect);
   }, game);
@@ -76,14 +73,22 @@ export function isGameStateLegal(game: GameState): boolean {
   return true;
 }
 
-// const nextState = cloneAndModifyGameState(initialState, applyResourceChangesToCurrentPlayer(
-//   new Map<Resource, number>([
-//     ["solari", 1]
-//   ])
-// ));
+const firstTurn: PlayerAgentTurn = {
+  cardPlayed: signetRingCard,
+  agentLocation: haggaBasin,
+  intrigueCardsPlayed: [gainThreeSolariIntrigueCard]
+}
+
+const secondTurn: PlayerAgentTurn = {
+  cardPlayed: signetRingCard,
+  agentLocation: haggaBasin,
+  intrigueCardsPlayed: [gainThreeSolariIntrigueCard]
+}
 
 console.log(initialState);
-const nextState = applyPlayerTurn(initialState, firstTurn)
-// console.log(getCurrentPlayer(initialState));
+const nextState = applyPlayerTurn(initialState, firstTurn);
 console.log(nextState);
 console.log(isGameStateLegal(nextState));
+const thirdState = applyPlayerTurn(nextState, secondTurn);
+console.log(thirdState);
+console.log(isGameStateLegal(thirdState));
