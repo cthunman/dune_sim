@@ -1,4 +1,5 @@
 import { BoardLocation, GameState, Resource } from "./types";
+import { applyResourceChangesToCurrentPlayer } from "./util";
 
 // Green
 export const highCouncil: BoardLocation = {
@@ -111,9 +112,12 @@ export const haggaBasin: BoardLocation = {
     ["water", 1]
   ]),
   locationType: "yellow",
-  effect: function (game: GameState): GameState {
-    throw new Error("Function not implemented.");
-  }
+  effect: applyResourceChangesToCurrentPlayer(
+    new Map<Resource, number>([
+      ["spice", 2],
+      ["water", -1]
+    ])
+  ),
 }
 
 export const imperialBasin: BoardLocation = {

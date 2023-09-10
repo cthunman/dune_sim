@@ -50,14 +50,21 @@ export function getCurrentPlayer(game: GameState): PlayerState {
   return currentPlayer;
 }
 
+export function getNextPlayer(game: GameState): number {
+  return (game.currentPlayer + 1) % game.playerMap.size;
+}
+
 export function createInitialGameState(playerStates: PlayerState[]): GameState {
   let playerMap = new Map<number, PlayerState>();
+  let delayedEffectsMap = new Map<number, GameEffect>();
   playerStates.forEach((playerState, index) => {
     playerMap.set(index, playerState);
   });
   return {
+    roundNumber: 0,
     currentPlayer: 0,
-    playerMap: playerMap
+    playerMap: playerMap,
+    delayedEffects: delayedEffectsMap
   };
 }
 

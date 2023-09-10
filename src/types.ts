@@ -7,8 +7,10 @@ export type Game = {
 }
 
 export type GameState = {
+  roundNumber: number;
   currentPlayer: number;
   playerMap: Map<number, PlayerState>;
+  delayedEffects: Map<number, GameEffect>;
 }
 
 export type PlayerState = {

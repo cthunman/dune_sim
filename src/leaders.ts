@@ -1,5 +1,6 @@
 import _ from "lodash";
-import { GameEffect, GameState, Leader, PlayerState } from "./types";
+import { GameEffect, GameState, Leader, PlayerState, Resource } from "./types";
+import { applyResourceChangesToCurrentPlayer } from "./util";
 
 // export type Leader = {
 //     name: String;
@@ -80,10 +81,11 @@ export const earlThorvald: Leader = {
   leaderEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (game: GameState): GameState {
-
-    throw new Error("Function not implemented.");
-  },
+  signetRingEffect: applyResourceChangesToCurrentPlayer(
+    new Map<Resource, number>([
+      ["spice", 1]
+    ])
+  ),
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
   }
