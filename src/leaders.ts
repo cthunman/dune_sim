@@ -1,14 +1,14 @@
 import _ from "lodash";
 import { GameEffect, GameState, Leader, PlayerState, Resource } from "./types";
-import { applyResourceChangesToCurrentPlayer, applySoldierChangeToGarrison } from "./util";
+import { applyResourceChangesToCurrentPlayer, applySoldierChangeToBattlefield, applySoldierChangeToGarrison } from "./util";
 
 export const arianaThorvald: Leader = {
   name: "Countess Ariana Thorvald",
   leaderEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (game: GameState): GameState {
-    throw new Error("Function not implemented.");
+  signetRingEffect: {
+    choices: new Map<string, GameEffect>([])
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
@@ -20,7 +20,12 @@ export const glossuRabban: Leader = {
   leaderEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: applySoldierChangeToGarrison(1),
+  signetRingEffect: {
+    choices: new Map<string, GameEffect>([
+      ["Add 1 Soldier to Garrison", applySoldierChangeToGarrison(1)],
+      ["Add 1 Soldier to Battlefiedl", applySoldierChangeToBattlefield(1)]
+    ])
+  },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
   }
@@ -31,8 +36,8 @@ export const baronHarkonnen: Leader = {
   leaderEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (game: GameState): GameState {
-    throw new Error("Function not implemented.");
+  signetRingEffect: {
+    choices: new Map<string, GameEffect>([])
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
@@ -44,8 +49,8 @@ export const paulAtreides: Leader = {
   leaderEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (game: GameState): GameState {
-    throw new Error("Function not implemented.");
+  signetRingEffect: {
+    choices: new Map<string, GameEffect>([])
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
@@ -57,8 +62,8 @@ export const ilbanRichese: Leader = {
   leaderEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (game: GameState): GameState {
-    throw new Error("Function not implemented.");
+  signetRingEffect: {
+    choices: new Map<string, GameEffect>([])
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     let clonedPlayerState: PlayerState = _.cloneDeep(playerState);
@@ -73,11 +78,18 @@ export const earlThorvald: Leader = {
   leaderEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: applyResourceChangesToCurrentPlayer(
-    new Map<Resource, number>([
-      ["spice", 1]
+  signetRingEffect: {
+    choices: new Map<string, GameEffect>([
+      [
+        "Gain 1 Spice.",
+        applyResourceChangesToCurrentPlayer(
+          new Map<Resource, number>([
+            ["spice", 1]
+          ])
+        )
+      ]
     ])
-  ),
+  },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
   }
@@ -88,8 +100,8 @@ export const letoAtreides: Leader = {
   leaderEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (game: GameState): GameState {
-    throw new Error("Function not implemented.");
+  signetRingEffect: {
+    choices: new Map<string, GameEffect>([])
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
@@ -101,8 +113,8 @@ export const helenaRichese: Leader = {
   leaderEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (game: GameState): GameState {
-    throw new Error("Function not implemented.");
+  signetRingEffect: {
+    choices: new Map<string, GameEffect>([])
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;

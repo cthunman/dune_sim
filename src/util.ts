@@ -11,6 +11,7 @@ import {
 import {
   Faction,
   GameEffect,
+  GameEffectChoice,
   GameState,
   ImperiumCard,
   Leader,
@@ -84,7 +85,7 @@ export function advanceGameToNextPlayer(game: GameState): GameState {
 
 export function createInitialGameState(playerStates: PlayerState[]): GameState {
   let playerMap = new Map<number, PlayerState>();
-  let delayedEffectsMap = new Map<number, GameEffect>();
+  let delayedEffectsMap = new Map<number, GameEffectChoice>();
   playerStates.forEach((playerState, index) => {
     playerMap.set(index, playerState);
   });
@@ -103,6 +104,7 @@ export function createInitialPlayerState(leader: Leader): PlayerState {
     mentatInPlay: 0,
     swordmasterInPlay: 0,
     agentLocations: [],
+    locationFlags: [],
     deck: createStartingDeck(),
     hand: [],
     discard: [],
@@ -111,7 +113,7 @@ export function createInitialPlayerState(leader: Leader): PlayerState {
     influenceMap: createEmptyInfluenceMap(),
     allianceMap: createEmptyInfluenceMap(),
     resources: createInitialResourceMap(),
-    soldiersInGarrison: 0,
+    soldiersInGarrison: 3,
     soldiersInBattlefield: 0,
     victoryPointCount: 0
   }
