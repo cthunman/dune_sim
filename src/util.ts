@@ -1,12 +1,12 @@
 import _ from "lodash";
 import {
   convincingArgumentCard,
+  createSignetRingCard,
   daggerCard,
   diplomacyCard,
   duneTheDesertPlanetCard,
   reconnaissanceCard,
   seekAlliesCard,
-  signetRingCard
 } from "./cards";
 import {
   Faction,
@@ -29,6 +29,14 @@ export function cloneAndModifyGameState(
   return clonedGameState;
 }
 
+export function combineGameEffectList(gameEffectList: GameEffect[]): GameEffect {
+  return (initialGameState: GameState) => {
+    return gameEffectList.reduce((currentGameState, gameEffect) => {
+      return gameEffect(currentGameState);  // Apply the current gameEffect to the accumulated gameState
+    }, initialGameState);
+  };
+}
+
 export function applySoldierChangeToBattlefield(numSoldiers: number) {
   return function (game: GameState): GameState {
     const currentPlayer = game.playerMap.get(game.currentPlayer);
@@ -49,6 +57,12 @@ export function applySoldierChangeToGarrison(numSoldiers: number) {
     currentPlayer.soldiersInGarrison += numSoldiers;
     return game;
   };
+}
+
+export function doNothingEffect(): GameEffect {
+  return function (game: GameState): GameState {
+    return game
+  }
 }
 
 export function applyResourceChangesToCurrentPlayer(resourceMap: Map<Resource, number>) {
@@ -105,7 +119,7 @@ export function createInitialPlayerState(leader: Leader): PlayerState {
     swordmasterInPlay: 0,
     agentLocations: [],
     locationFlags: [],
-    deck: createStartingDeck(),
+    deck: createStartingDeck(leader),
     hand: [],
     discard: [],
     trash: [],
@@ -120,7 +134,7 @@ export function createInitialPlayerState(leader: Leader): PlayerState {
   return leader.gameStartEffect(playerState);
 }
 
-function createStartingDeck(): ImperiumCard[] {
+function createStartingDeck(leader: Leader): ImperiumCard[] {
   return [
     ...Array(2).fill(convincingArgumentCard),
     ...Array(2).fill(daggerCard),
@@ -128,7 +142,7 @@ function createStartingDeck(): ImperiumCard[] {
     diplomacyCard,
     reconnaissanceCard,
     seekAlliesCard,
-    signetRingCard
+    createSignetRingCard(leader)
   ];
 }
 

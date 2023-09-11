@@ -1,5 +1,5 @@
 import { BoardLocation, GameEffect, GameState, Resource } from "./types";
-import { applyResourceChangesToCurrentPlayer } from "./util";
+import { applyResourceChangesToCurrentPlayer, combineGameEffectList, doNothingEffect } from "./util";
 
 // Green
 export const highCouncil: BoardLocation = {
@@ -153,7 +153,16 @@ export const secureContract: BoardLocation = {
   // resourceCost: new Map<Resource, number>([]),
   locationType: "yellow",
   effect: {
-    choices: new Map<string, GameEffect>([])
+    choices: new Map<string, GameEffect>([
+      [
+        "Gain 3 Solari",
+        applyResourceChangesToCurrentPlayer(
+          new Map<Resource, number>([
+            ["solari", 3],
+          ])
+        ),
+      ]
+    ])
   }
 }
 
@@ -162,7 +171,44 @@ export const sellMelange: BoardLocation = {
   // resourceCost: new Map<Resource, number>([]),
   locationType: "yellow",
   effect: {
-    choices: new Map<string, GameEffect>([])
+    choices: new Map<string, GameEffect>([
+      [
+        "Trade 2 Spice for 6 Solari",
+        applyResourceChangesToCurrentPlayer(
+          new Map<Resource, number>([
+            ["spice", -2],
+            ["solari", 6],
+          ])
+        ),
+      ],
+      [
+        "Trade 3 Spice for 8 Solari",
+        applyResourceChangesToCurrentPlayer(
+          new Map<Resource, number>([
+            ["spice", -3],
+            ["solari", 8],
+          ])
+        ),
+      ],
+      [
+        "Trade 4 Spice for 10 Solari",
+        applyResourceChangesToCurrentPlayer(
+          new Map<Resource, number>([
+            ["spice", -4],
+            ["solari", 10],
+          ])
+        ),
+      ],
+      [
+        "Trade 5 Spice for 12 Solari",
+        applyResourceChangesToCurrentPlayer(
+          new Map<Resource, number>([
+            ["spice", -5],
+            ["solari", 12],
+          ])
+        ),
+      ]
+    ])
   }
 }
 
@@ -174,7 +220,27 @@ export const selectiveBreeding: BoardLocation = {
   // ]),
   locationType: "beneGesserit",
   effect: {
-    choices: new Map<string, GameEffect>([])
+    choices: new Map<string, GameEffect>([
+      [
+        "Pay 2 Spice",
+        applyResourceChangesToCurrentPlayer(
+          new Map<Resource, number>([
+            ["spice", -2]
+          ])
+        ),
+      ],
+      [
+        "Pay 2 Spice Discard a Card and Draw 2 Cards",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["spice", -2]
+            ])
+          ),
+          doNothingEffect() // TODO: #1 Write Discard Card and Draw 2 Cards function
+        ])
+      ]
+    ])
   }
 }
 
@@ -183,14 +249,21 @@ export const secrets: BoardLocation = {
   // resourceCost: new Map<Resource, number>([]),
   locationType: "beneGesserit",
   effect: {
-    choices: new Map<string, GameEffect>([])
+    choices: new Map<string, GameEffect>([
+      [
+        "Draw 1 Intrigue Card and Steal Intrigue Card from Opponents with 4 or More",
+        combineGameEffectList([
+          doNothingEffect(), // TODO: #2 Write Draw N Intrigue Card Function
+          doNothingEffect() // TODO: #3 Write Steal Intrigue Card from Opponents with 4 or More Function
+        ])
+      ]
+    ])
   }
 }
 
 // Fremen
 export const stillsuits: BoardLocation = {
   name: "Stillsuits",
-  // resourceCost: new Map<Resource, number>([]),
   locationType: "fremen",
   effect: {
     choices: new Map<string, GameEffect>([
@@ -208,20 +281,19 @@ export const stillsuits: BoardLocation = {
 
 export const hardyWarriors: BoardLocation = {
   name: "Hardy Warriors",
-  // resourceCost: new Map<Resource, number>([
-  //   ["water", 1]
-  // ]),
   locationType: "fremen",
   effect: {
     choices: new Map<string, GameEffect>([
       [
         "Pay 1 Water Gain 2 Troops",
-        // applySoldierChangeToGarrison
-        applyResourceChangesToCurrentPlayer(
-          new Map<Resource, number>([
-            ["water", 1]
-          ])
-        ),
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["water", 1]
+            ])
+          ),
+          doNothingEffect() // TODO: #4 Write function to gain N troops and split between garrison and battlefield
+        ])
       ]
     ])
   }

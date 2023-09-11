@@ -69,16 +69,25 @@ export type IntrigueCard = {
   effect: GameEffectChoice;
 }
 
-type PlayCard<T> = {
-  cardPlayed: T;
+export type PlayIntrigueCard = {
+  cardPlayed: IntrigueCard;
   effectChoice: string;
-};
-export type PlayIntrigueOrImperiumCard = PlayCard<IntrigueCard | ImperiumCard>;
+}
+
+export type PlayImperiumCard = {
+  cardPlayed: ImperiumCard;
+  effectChoice: string;
+}
+
+export type PlayBoardLocation = {
+  boardLocation: BoardLocation;
+  effectChoice: string;
+}
 
 export type PlayerAgentTurn = {
-  cardPlayed: PlayIntrigueOrImperiumCard;
-  agentLocation: BoardLocation;
-  intrigueCardsPlayed: PlayIntrigueOrImperiumCard[];
+  cardPlayed: PlayImperiumCard;
+  agentLocation: PlayBoardLocation;
+  intrigueCardsPlayed: PlayIntrigueCard[];
 }
 
 export type BoardLocation = {

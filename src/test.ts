@@ -9,8 +9,7 @@ import {
   createInitialPlayerState,
   getNextPlayer,
 } from "./util";
-import { signetRingCard } from "./cards";
-import { gainThreeSolariIntrigueCard } from "./intrigueCards";
+import { diplomacyCard } from "./cards";
 
 const p1: PlayerState = createInitialPlayerState(earlThorvald);
 const p2: PlayerState = createInitialPlayerState(glossuRabban);
@@ -21,10 +20,22 @@ const initialState: GameState = createInitialGameState([p1, p2, p3, p4]);
 
 function getGameEffectsFromPlayerTurn(playerTurn: PlayerAgentTurn): GameEffect[] {
   const gameEffectList: GameEffect[] = [];
-  gameEffectList.push(playerTurn.cardPlayed.agentEffect);
-  gameEffectList.push(playerTurn.agentLocation.effect);
+  const imperiumCardChoice = playerTurn.cardPlayed.effectChoice;
+  const imperiumCardEffect = playerTurn.cardPlayed.cardPlayed.agentEffect.choices.get(imperiumCardChoice);
+  if (imperiumCardEffect) {
+    gameEffectList.push(imperiumCardEffect);
+  }
+  const locationEffectChoice = playerTurn.agentLocation.effectChoice;
+  const boardLocationEffect = playerTurn.agentLocation.boardLocation.effect.choices.get(locationEffectChoice);
+  if (boardLocationEffect) {
+    gameEffectList.push(boardLocationEffect);
+  }
   for (const intrigueCard of playerTurn.intrigueCardsPlayed) {
-    gameEffectList.push(intrigueCard.effect);
+    const intrigueCardChoice = intrigueCard.effectChoice;
+    const intrigueCardEffect = intrigueCard.cardPlayed.effect.choices.get(intrigueCardChoice);
+    if (intrigueCardEffect) {
+      gameEffectList.push(intrigueCardEffect);
+    }
   }
   return gameEffectList;
 }
@@ -73,22 +84,41 @@ export function isGameStateLegal(game: GameState): boolean {
   return true;
 }
 
+// TODO: #5 Figure out how to instantiate a signet ring card.
+// const firstTurn: PlayerAgentTurn = {
+//   cardPlayed: signetRingCard,
+//   agentLocation: haggaBasin,
+//   intrigueCardsPlayed: []
+// }
+
+// const secondTurn: PlayerAgentTurn = {
+//   cardPlayed: signetRingCard,
+//   agentLocation: haggaBasin,
+//   intrigueCardsPlayed: []
+// }
+
 const firstTurn: PlayerAgentTurn = {
-  cardPlayed: signetRingCard,
-  agentLocation: haggaBasin,
-  intrigueCardsPlayed: [gainThreeSolariIntrigueCard]
+  cardPlayed: {
+    cardPlayed: diplomacyCard,
+    effectChoice: ""
+  },
+  agentLocation: {
+    boardLocation: haggaBasin,
+    effectChoice: "Pay 1 Water Gain 2 Spice"
+  },
+  intrigueCardsPlayed: []
 }
 
-const secondTurn: PlayerAgentTurn = {
-  cardPlayed: signetRingCard,
-  agentLocation: haggaBasin,
-  intrigueCardsPlayed: [gainThreeSolariIntrigueCard]
-}
+// const secondTurn: PlayerAgentTurn = {
+//   cardPlayed: diplomacyCard,
+//   agentLocation: haggaBasin,
+//   intrigueCardsPlayed: []
+// }
 
 console.log(initialState);
 const nextState = applyPlayerTurn(initialState, firstTurn);
 console.log(nextState);
 console.log(isGameStateLegal(nextState));
-const thirdState = applyPlayerTurn(nextState, secondTurn);
-console.log(thirdState);
-console.log(isGameStateLegal(thirdState));
+// const thirdState = applyPlayerTurn(nextState, secondTurn);
+// console.log(thirdState);
+// console.log(isGameStateLegal(thirdState));

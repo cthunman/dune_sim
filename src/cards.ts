@@ -97,22 +97,6 @@ export const seekAlliesCard: ImperiumCard = {
   persuasionScore: 0
 };
 
-// export const signetRingCard: ImperiumCard = {
-//   name: "Signet Ring",
-//   destinationTypes: ["yellow", "green", "purple"],
-//   agentEffect: function (game: GameState): GameStateEffect {
-//     const currentPlayer = getCurrentPlayer(game);
-//     const leader = currentPlayer.leader;
-//     return leader.signetRingEffect(game);
-//   },
-//   revealEffect: function (game: GameState): GameState {
-//     throw new Error("Function not implemented.");
-//   },
-//   persuasionScore: 0,
-//   pickupEffect: function (game: GameState): GameState {
-//     return game;
-//   }
-// };
 export function createSignetRingCard(leader: Leader): ImperiumCard {
   return {
     name: "Signet Ring",
