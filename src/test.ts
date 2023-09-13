@@ -20,8 +20,9 @@ const initialState: GameState = createInitialGameState([p1, p2, p3, p4]);
 
 function getGameEffectsFromPlayerTurn(playerTurn: PlayerAgentTurn): GameEffect[] {
   const gameEffectList: GameEffect[] = [];
-  const imperiumCardChoice = playerTurn.cardPlayed.effectChoice;
-  const imperiumCardEffect = playerTurn.cardPlayed.cardPlayed.agentEffect.choices.get(imperiumCardChoice);
+  const cardPlayed = playerTurn.cardPlayed;
+  const imperiumCardChoice = cardPlayed.effectChoice;
+  const imperiumCardEffect = cardPlayed.cardPlayed.agentEffect.choices.get(imperiumCardChoice);
   if (imperiumCardEffect) {
     gameEffectList.push(imperiumCardEffect);
   }

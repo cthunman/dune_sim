@@ -37,12 +37,11 @@ export type PlayerState = {
 export type LeaderEffect = {}
 export type Leader = {
   name: string;
-  gameStartEffect: PlayerEffect;
+  gameStartEffect: (playerState: PlayerState) => PlayerState;
   leaderEffect: LeaderEffect;
-  signetRingEffect: GameEffectChoice;
+  signetRingEffect: (player: PlayerState) => GameEffectChoice;
 };
 
-export type PlayerEffect = (game: PlayerState) => PlayerState;
 export type GameEffect = (game: GameState) => GameState;
 export type GameEffectChoice = {
   choices: Map<string, GameEffect>;

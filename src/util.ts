@@ -59,6 +59,24 @@ export function applySoldierChangeToGarrison(numSoldiers: number) {
   };
 }
 
+export function applySoldiersToBattlefieldAndGarrison(numSoldiers: number): Map<string, (game: GameState) => GameState> {
+  const combinations: Map<string, (game: GameState) => GameState> = new Map();
+  for (let i = 0; i <= numSoldiers; i++) {
+      const soldiersForBattlefield = i;
+      const soldiersForGarrison = numSoldiers - i;
+      // Create the combined function
+      const combinedFunction = (game: GameState): GameState => {
+          let newGameState = applySoldierChangeToBattlefield(soldiersForBattlefield)(game);
+          newGameState = applySoldierChangeToGarrison(soldiersForGarrison)(newGameState);
+          return newGameState;
+      };
+      const description = `Soldiers: ${soldiersForBattlefield} to battlefield, ${soldiersForGarrison} to garrison`;
+      combinations.set(description, combinedFunction);
+  }
+
+  return combinations;
+}
+
 export function doNothingEffect(): GameEffect {
   return function (game: GameState): GameState {
     return game
