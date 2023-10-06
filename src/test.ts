@@ -7,7 +7,6 @@ import {
   cloneAndModifyGameState,
   createInitialGameState,
   createInitialPlayerState,
-  getNextPlayer,
 } from "./util";
 import { diplomacyCard } from "./cards";
 
@@ -117,9 +116,9 @@ const firstTurn: PlayerAgentTurn = {
 // }
 
 console.log(initialState);
-const nextState = applyPlayerTurn(initialState, firstTurn);
-console.log(nextState);
-console.log(isGameStateLegal(nextState));
+// const nextState = applyPlayerTurn(initialState, firstTurn);
+// console.log(nextState);
+// console.log(isGameStateLegal(nextState));
 // const thirdState = applyPlayerTurn(nextState, secondTurn);
 // console.log(thirdState);
 // console.log(isGameStateLegal(thirdState));
