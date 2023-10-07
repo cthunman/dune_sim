@@ -34,14 +34,14 @@ export type PlayerState = {
   victoryPointCount: number;
 }
 
-export type LeaderEffect = Record<string, never>
+// export type LeaderEffect = Record<string, never>
 export type Leader = {
   name: string;
   gameStartEffect: (playerState: PlayerState) => PlayerState;
-  leaderEffect: LeaderEffect;
-  signetRingEffect: GameEffectChoice;
+  leaderEffect: GameEffect;
+  // signetRingEffect: GameEffectChoice;
   // Can I model this without the player state?
-  // signetRingEffect: (player: PlayerState) => GameEffectChoice;
+  signetRingEffect: (player: PlayerState) => GameEffectChoice;
 };
 
 export type GameEffect = (game: GameState) => GameState;

@@ -7,9 +7,7 @@ export const arianaThorvald: Leader = {
   leaderEffect: function (game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (player: PlayerState) {
-    return { choices: new Map<string, GameEffect>([]) }
-  },
+  signetRingEffect: (player: PlayerState) => ({ choices: new Map<string, GameEffect>([]) }),
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
   }

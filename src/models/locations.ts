@@ -1,5 +1,5 @@
 import { BoardLocation, GameEffect, Resource } from "./types";
-import { applyResourceChangesToCurrentPlayer, combineGameEffectList, doNothingEffect } from "./util";
+import { applyResourceChangesToCurrentPlayer, applySoldierChangeToBattlefield, applySoldierChangeToGarrison, applySoldiersToBattlefieldAndGarrison, combineGameEffectList, doNothingEffect } from "./util";
 
 // Green
 export const highCouncil: BoardLocation = {
@@ -285,14 +285,37 @@ export const hardyWarriors: BoardLocation = {
   effect: {
     choices: new Map<string, GameEffect>([
       [
-        "Pay 1 Water Gain 2 Troops",
+        "Pay 1 Water Gain 2 Troops in Battlefield",
         combineGameEffectList([
           applyResourceChangesToCurrentPlayer(
             new Map<Resource, number>([
-              ["water", 1]
+              ["water", -1]
             ])
           ),
-          doNothingEffect() // TODO: #4 Write function to gain N troops and split between garrison and battlefield
+          applySoldierChangeToBattlefield(2)
+        ])
+      ],
+      [
+        "Pay 1 Water Gain 1 Troop in Battlefield 1 in Garrison",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["water", -1]
+            ])
+          ),
+          applySoldierChangeToBattlefield(1),
+          applySoldierChangeToGarrison(1)
+        ])
+      ],
+      [
+        "Pay 1 Water Gain 2 Troops in Garrison",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["water", -1]
+            ])
+          ),
+          applySoldierChangeToGarrison(2)
         ])
       ]
     ])
@@ -340,3 +363,7 @@ export const conspire: BoardLocation = {
     choices: new Map<string, GameEffect>([])
   }
 }
+
+export const fullLocationList: Location[] = [
+
+];

@@ -104,7 +104,10 @@ export function createSignetRingCard(leader: Leader): ImperiumCard {
     pickupEffect: {
       choices: new Map<string, GameEffect>([])
     },
-    agentEffect: leader.signetRingEffect,  // the agent effect comes from the leader
+    agentEffect: {
+      choices: new Map<string, GameEffect>([])
+    },
+    // agentEffect: leader.signetRingEffect,  // the agent effect comes from the leader
     revealEffect: {
       choices: new Map<string, GameEffect>([])
     },
