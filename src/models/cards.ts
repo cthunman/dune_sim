@@ -82,7 +82,7 @@ export const reconnaissanceCard: ImperiumCard = {
 
 export const seekAlliesCard: ImperiumCard = {
   name: "Seek Allies",
-  destinationTypes: [],
+  destinationTypes: ["beneGesserit", "emperor", "guild", "fremen"],
   factionAffiliations: [],
   agentEffect: {
     choices: new Map<string, GameEffect>([])

@@ -10,6 +10,7 @@ import {
   seekAlliesCard,
 } from "./cards";
 import {
+  BoardLocation,
   Faction,
   GameEffect,
   GameEffectChoice,
@@ -276,6 +277,28 @@ export function givePlayerHighCouncilSeat() {
   };
 }
 
+// NEEDS_TESTING
+export function getAvailableLocations(
+  gameState: GameState,
+  fullLocationList: BoardLocation[],
+  imperiumCard: ImperiumCard
+): BoardLocation[] {
+  const occupiedLocations: Set<string> = new Set();
+  gameState.playerMap.forEach(playerState => {
+    playerState.agentLocations.forEach(location => {
+      occupiedLocations.add(location.name);
+    });
+  });
+  return fullLocationList.filter(location => {
+    // Rule 1: The location is not already occupied by an agent
+    if (occupiedLocations.has(location.name)) {
+      return false;
+    }
+    // Rule 2: The location type must be one of the destinationTypes on the card
+    return imperiumCard.destinationTypes.includes(location.locationType);
+  });
+}
+
 export function getCurrentPlayer(game: GameState): PlayerState {
   const currentPlayer = game.playerMap.get(game.currentPlayer);
   if (!currentPlayer) {
@@ -299,10 +322,8 @@ export function createInitialGameState(playerStates: PlayerState[]): GameState {
   const delayedEffectsMap = new Map<number, GameEffectChoice>();
   playerStates.forEach((playerState, index) => {
     const shuffledDeck = shuffle(playerState.deck);
-
     playerState.deck = shuffledDeck.slice(5);
     playerState.hand = shuffledDeck.slice(0, 5);
-
     playerMap.set(index, playerState);
   });
   return {
@@ -386,7 +407,6 @@ export function shuffle<T>(array: T[]): T[] {
   for (let i = shuffled.length - 1; i > 0; i--) {
     // Generate a random index between 0 and i (inclusive)
     const j = Math.floor(Math.random() * (i + 1));
-
     // Swap elements at i and j
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }

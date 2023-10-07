@@ -9,10 +9,10 @@ import {
 } from "./util";
 import { diplomacyCard } from "./cards";
 
-const p1: PlayerState = createInitialPlayerState(earlThorvald);
-const p2: PlayerState = createInitialPlayerState(glossuRabban);
-const p3: PlayerState = createInitialPlayerState(paulAtreides);
-const p4: PlayerState = createInitialPlayerState(ilbanRichese);
+const p1 = createInitialPlayerState(earlThorvald, "red");
+const p2 = createInitialPlayerState(glossuRabban, "blue");
+const p3 = createInitialPlayerState(paulAtreides, "green");
+const p4 = createInitialPlayerState(ilbanRichese, "tan");
 
 const initialState: GameState = createInitialGameState([p1, p2, p3, p4]);
 
