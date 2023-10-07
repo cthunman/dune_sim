@@ -106,9 +106,7 @@ export function drawCard() {
     if (!currentPlayer) {
       throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
     }
-
     let { deck, hand, discard } = currentPlayer;
-
     // If deck is empty, shuffle discard into deck
     if (deck.length === 0) {
       if (discard.length === 0) {
@@ -117,16 +115,13 @@ export function drawCard() {
       deck = shuffle([...discard]);
       discard = [];
     }
-
     // Draw top card from deck
     const drawnCard = deck.pop();
     if (!drawnCard) {
       throw new Error("Failed to draw a card from the deck.");
     }
-
     // Add the drawn card to hand
     hand = [...hand, drawnCard];
-
     // Create a new player state
     const newCurrentPlayer: PlayerState = {
       ...currentPlayer,
@@ -134,17 +129,14 @@ export function drawCard() {
       hand,
       discard,
     };
-
     // Update the player map with the new player state
     const newPlayerMap = new Map(game.playerMap);
     newPlayerMap.set(game.currentPlayer, newCurrentPlayer);
-
     // Create a new game state and return
     const newGame: GameState = {
       ...game,
       playerMap: newPlayerMap,
     };
-
     return newGame;
   };
 }
@@ -157,23 +149,18 @@ export function transferIntrigueCards() {
     if (!currentPlayer) {
       throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
     }
-
     const newPlayerMap = new Map<number, PlayerState>(game.playerMap);
-
     // Go through each player and transfer an intrigue card if condition met
     newPlayerMap.forEach((player, playerId) => {
       // Skip if the player is the current player
       if (playerId === game.currentPlayer) return;
-
       // Check if the player has 4 or more intrigue cards
       if (player.intrigueCardList.length >= 4) {
         // Choose a random card to give away
         const randomIndex = Math.floor(Math.random() * player.intrigueCardList.length);
         const [transferredCard] = player.intrigueCardList.splice(randomIndex, 1);
-
         // Add the chosen card to the current player's intrigue card list
         currentPlayer.intrigueCardList.push(transferredCard);
-
         // Update the player in the map
         newPlayerMap.set(playerId, {
           ...player,
@@ -181,13 +168,11 @@ export function transferIntrigueCards() {
         });
       }
     });
-
     // Update the current player in the map
     newPlayerMap.set(game.currentPlayer, {
       ...currentPlayer,
       intrigueCardList: [...currentPlayer.intrigueCardList],
     });
-
     // Return the new game state
     return {
       ...game,
@@ -203,34 +188,28 @@ export function drawIntrigueCard() {
     if (!currentPlayer) {
       throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
     }
-
     if (game.intrigueDeck.length === 0) {
       throw new Error("Intrigue Deck is empty. Cannot draw a card.");
     }
-
     // Get the top intrigue card and remove it from the intrigue deck
     const drawnCard = game.intrigueDeck.pop();
     if (!drawnCard) {
       throw new Error(`Game state invalid. Unable to draw intrigueCard.`);
     }
-
     // Copy player and update the intrigueCardList
     const newCurrentPlayer: PlayerState = {
       ...currentPlayer,
       intrigueCardList: [...currentPlayer.intrigueCardList, drawnCard]
     };
-
     // Update the player map with the new player state
     const newPlayerMap = new Map(game.playerMap);
     newPlayerMap.set(game.currentPlayer, newCurrentPlayer);
-
     // Update game state and return
     const newGame: GameState = {
       ...game,
       playerMap: newPlayerMap,
       intrigueDeck: game.intrigueDeck // No need to slice, pop has modified the original array
     };
-
     return newGame;
   };
 }
@@ -241,25 +220,18 @@ export function drawFoldspaceCard() {
     if (!currentPlayer) {
       throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
     }
-
-    // Creating a new instance of the foldspace card
     const newFoldspace: ImperiumCard = {
       ...foldspaceCard,
     };
-
-    // Adding the new card to the currentPlayer's discard pile
     const updatedDiscard = [...currentPlayer.discard, newFoldspace];
-
     // Updating the currentPlayer state
     const updatedPlayer: PlayerState = {
       ...currentPlayer,
       discard: updatedDiscard,
     };
-
     // Updating the game's playerMap
     const newPlayerMap = new Map(game.playerMap);
     newPlayerMap.set(game.currentPlayer, updatedPlayer);
-
     // Constructing and returning the updated game state
     return {
       ...game,
@@ -267,7 +239,6 @@ export function drawFoldspaceCard() {
     };
   };
 }
-
 
 // NEEDS_TESTING
 export function applyPersuasionChangeToPlayer(persuasionScore: number) {
