@@ -1,15 +1,24 @@
 import { BoardLocation, GameEffect, Resource } from "./types";
-import { applyResourceChangesToCurrentPlayer, applySoldierChangeToBattlefield, applySoldierChangeToGarrison, applySoldiersToBattlefieldAndGarrison, combineGameEffectList, doNothingEffect } from "./util";
+import { applyPersuasionChangeToPlayer, applyResourceChangesToCurrentPlayer, applySoldierChangeToBattlefield, applySoldierChangeToGarrison, combineGameEffectList, doNothingEffect, givePlayerHighCouncilSeat, givePlayerSwordmaster } from "./util";
 
 // Green
 export const highCouncil: BoardLocation = {
   name: "High Council",
-  // resourceCost: new Map<Resource, number>([
-  //   ["solari", 5]
-  // ]),
   locationType: "green",
   effect: {
-    choices: new Map<string, GameEffect>([])
+    choices: new Map<string, GameEffect>([
+      [
+        "Purchase High Council Seat",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["solari", -5]
+            ])
+          ),
+          givePlayerHighCouncilSeat() // TODO: #6 Test that this function works.
+        ])
+      ]
+    ])
   }
 }
 
@@ -26,23 +35,88 @@ export const mentat: BoardLocation = {
 
 export const rallyTroops: BoardLocation = {
   name: "Rally Troops",
-  // resourceCost: new Map<Resource, number>([
-  //   ["solari", 4]
-  // ]),
   locationType: "green",
   effect: {
-    choices: new Map<string, GameEffect>([])
+    choices: new Map<string, GameEffect>([
+      [
+        "Pay 4 solari for 4 Troops to Battlefield",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["solari", -4]
+            ])
+          ),
+          applySoldierChangeToBattlefield(4)
+        ])
+      ],
+      [
+        "Pay 4 solari for 3 Troops to Battlefield 1 to Garrison",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["solari", -4]
+            ])
+          ),
+          applySoldierChangeToBattlefield(3),
+          applySoldierChangeToGarrison(1)
+        ])
+      ],
+      [
+        "Pay 4 solari for 2 Troops to Battlefield 2 to Garrison",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["solari", -4]
+            ])
+          ),
+          applySoldierChangeToBattlefield(2),
+          applySoldierChangeToGarrison(2)
+        ])
+      ],
+      [
+        "Pay 4 solari for 1 Troops to Battlefield 3 to Garrison",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["solari", -4]
+            ])
+          ),
+          applySoldierChangeToBattlefield(1),
+          applySoldierChangeToGarrison(3)
+        ])
+      ],
+      [
+        "Pay 4 solari for 4 Troops to Garrison",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["solari", -4]
+            ])
+          ),
+          applySoldierChangeToGarrison(4)
+        ])
+      ]
+    ])
   }
 }
 
 export const swordmaster: BoardLocation = {
   name: "Swordmaster",
-  // resourceCost: new Map<Resource, number>([
-  //   ["solari", 8]
-  // ]),
   locationType: "green",
   effect: {
-    choices: new Map<string, GameEffect>([])
+    choices: new Map<string, GameEffect>([
+      [
+        "Pay 8 solari for a swordmaster",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["solari", -8]
+            ])
+          ),
+          givePlayerSwordmaster()
+        ])
+      ]
+    ])
   }
 }
 
@@ -51,7 +125,22 @@ export const hallOfOratory: BoardLocation = {
   // resourceCost: new Map<Resource, number>([]),
   locationType: "green",
   effect: {
-    choices: new Map<string, GameEffect>([])
+    choices: new Map<string, GameEffect>([
+      [
+        "Receive 1 Troop to Battlefield and +1 Persuasion",
+        combineGameEffectList([
+          applySoldierChangeToBattlefield(1),
+          applyPersuasionChangeToPlayer(1)
+        ])
+      ],
+      [
+        "Receive 1 Troop to Garrison and +1 Persuasion",
+        combineGameEffectList([
+          applySoldierChangeToGarrison(1),
+          applyPersuasionChangeToPlayer(1)
+        ])
+      ]
+    ])
   }
 }
 

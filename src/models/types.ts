@@ -21,6 +21,8 @@ export type PlayerState = {
   numAgents: number;
   mentatInPlay: number;
   swordmasterInPlay: number;
+  highCouncilSeat: number;
+  persuasionScore: number;
   agentLocations: BoardLocation[];
   locationFlags: BoardLocation[];
   deck: ImperiumCard[];

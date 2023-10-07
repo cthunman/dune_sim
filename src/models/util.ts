@@ -98,6 +98,42 @@ export function applyResourceChangesToCurrentPlayer(resourceMap: Map<Resource, n
   };
 }
 
+// Needs testing.
+export function applyPersuasionChangeToPlayer(persuasionScore: number) {
+  return function (game: GameState): GameState {
+    const currentPlayer = game.playerMap.get(game.currentPlayer);
+    if (!currentPlayer) {
+      throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
+    }
+    currentPlayer.persuasionScore += persuasionScore;
+    return game;
+  };
+}
+
+// Needs testing.
+export function givePlayerSwordmaster() {
+  return function (game: GameState): GameState {
+    const currentPlayer = game.playerMap.get(game.currentPlayer);
+    if (!currentPlayer) {
+      throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
+    }
+    currentPlayer.swordmasterInPlay = 1;
+    return game;
+  };
+}
+
+// Needs testing.
+export function givePlayerHighCouncilSeat() {
+  return function (game: GameState): GameState {
+    const currentPlayer = game.playerMap.get(game.currentPlayer);
+    if (!currentPlayer) {
+      throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
+    }
+    currentPlayer.highCouncilSeat = 1;
+    return game;
+  };
+}
+
 export function getCurrentPlayer(game: GameState): PlayerState {
   const currentPlayer = game.playerMap.get(game.currentPlayer);
   if (!currentPlayer) {
@@ -142,6 +178,8 @@ export function createInitialPlayerState(leader: Leader, color: PlayerColor): Pl
     numAgents: 2,
     mentatInPlay: 0,
     swordmasterInPlay: 0,
+    highCouncilSeat: 0,
+    persuasionScore: 0,
     agentLocations: [],
     locationFlags: [],
     deck: createStartingDeck(leader),
