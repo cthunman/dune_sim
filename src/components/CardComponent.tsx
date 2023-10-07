@@ -18,6 +18,28 @@ const CardComponent: React.FC<CardProps> = ({ card }) => {
       <h4>Persuasion Score</h4>
       <p>{card.persuasionScore}</p>
 
+      {card.agentEffect && (
+        <>
+          <h4>Agent Effect Choices</h4>
+          <ul>
+            {Array.from(card.agentEffect.choices.keys()).map(choiceKey => (
+              <li key={choiceKey}>{choiceKey}</li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      {card.revealEffect && (
+        <>
+          <h4>Reveal Effect Choices</h4>
+          <ul>
+            {Array.from(card.revealEffect.choices.keys()).map(choiceKey => (
+              <li key={choiceKey}>{choiceKey}</li>
+            ))}
+          </ul>
+        </>
+      )}
+
       {card.pickupEffect && (
         <>
           <h4>Pickup Effect Choices</h4>

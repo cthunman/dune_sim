@@ -25,13 +25,6 @@ export const glossuRabban: Leader = {
     }
     return { choices: applySoldiersToBattlefieldAndGarrison(1) };
   },
-
-  // signetRingEffect: {
-  //   choices: new Map([
-  //     ...applySoldiersToBattlefieldAndGarrison(1),
-  //     ...applySoldiersToBattlefieldAndGarrison(2)
-  //   ])
-  // },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
   }
