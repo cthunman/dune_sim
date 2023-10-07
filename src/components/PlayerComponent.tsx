@@ -8,8 +8,9 @@ type PlayerProps = {
 
 function Player({ playerState, isCurrent }: PlayerProps) {
   return (
-    <div className={`player ${isCurrent ? 'player-highlight' : ''}`}>
-      <h2>{playerState.leader.name}</h2>
+    <div className={`player ${isCurrent ? 'player-highlight' : ''}`} style={{ backgroundColor: playerState.color }}>
+      {/* <div className={`player ${isCurrent ? 'player-highlight' : ''}`}> */}
+      <h2 className="player-name">{playerState.leader.name}</h2>
       <p><strong>Agents:</strong> {playerState.numAgents}</p>
       <p><strong>Mentat In Play:</strong> {playerState.mentatInPlay}</p>
       <p><strong>Swordmaster In Play:</strong> {playerState.swordmasterInPlay}</p>

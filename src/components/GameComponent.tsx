@@ -3,13 +3,14 @@ import { createInitialGameState, createInitialPlayerState } from '../models/util
 import { earlThorvald, glossuRabban, ilbanRichese, paulAtreides } from '../models/leaders';
 import Player from './PlayerComponent';
 import { GameState } from '../models/types';
+import Board from './BoardComponent';
 
 function GameComponent() {
   // Create players
-  const p1 = createInitialPlayerState(earlThorvald);
-  const p2 = createInitialPlayerState(glossuRabban);
-  const p3 = createInitialPlayerState(paulAtreides);
-  const p4 = createInitialPlayerState(ilbanRichese);
+  const p1 = createInitialPlayerState(earlThorvald, "red");
+  const p2 = createInitialPlayerState(glossuRabban, "blue");
+  const p3 = createInitialPlayerState(paulAtreides, "green");
+  const p4 = createInitialPlayerState(ilbanRichese, "tan");
 
   // Create initial game state
   const initialGameState = createInitialGameState([p1, p2, p3, p4]);
@@ -37,15 +38,18 @@ function GameComponent() {
   });
 
   return (
-    <div className="players-container">
-      {Array.from(game.currentGameState.playerMap).map(([playerId, playerState]) => (
-        <Player
-          key={playerId}
-          playerState={playerState}
-          isCurrent={playerId === game.currentGameState.currentPlayer}
-        />
-      ))}
-    </div>
+    <>
+      <Board />
+      <div className="players-container">
+        {Array.from(game.currentGameState.playerMap).map(([playerId, playerState]) => (
+          <Player
+            key={playerId}
+            playerState={playerState}
+            isCurrent={playerId === game.currentGameState.currentPlayer}
+          />
+        ))}
+      </div>
+    </>
   );
 }
 

@@ -15,6 +15,7 @@ import {
   GameState,
   ImperiumCard,
   Leader,
+  PlayerColor,
   PlayerState,
   Resource,
   fullFactionList
@@ -134,9 +135,10 @@ export function createInitialGameState(playerStates: PlayerState[]): GameState {
   };
 }
 
-export function createInitialPlayerState(leader: Leader): PlayerState {
+export function createInitialPlayerState(leader: Leader, color: PlayerColor): PlayerState {
   const playerState: PlayerState = {
     leader: leader,
+    color: color,
     numAgents: 2,
     mentatInPlay: 0,
     swordmasterInPlay: 0,

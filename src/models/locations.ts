@@ -364,6 +364,27 @@ export const conspire: BoardLocation = {
   }
 }
 
-export const fullLocationList: Location[] = [
-
+export const fullLocationList: BoardLocation[] = [
+  highCouncil,
+  conspire,
+  mentat,
+  rallyTroops,
+  swordmaster,
+  hallOfOratory,
+  carthag,
+  arrakeen,
+  researchStation,
+  sietchTabr,
+  theGreatFlat,
+  haggaBasin,
+  imperialBasin,
+  secureContract,
+  sellMelange,
+  selectiveBreeding,
+  secrets,
+  stillsuits,
+  hardyWarriors,
+  foldspace,
+  heighliner,
+  wealth,
 ];

@@ -14,8 +14,10 @@ export type GameState = {
   delayedEffects: Map<number, GameEffectChoice>;
 }
 
+export type PlayerColor = "red" | "blue" | "green" | "tan";
 export type PlayerState = {
   leader: Leader;
+  color: PlayerColor;
   numAgents: number;
   mentatInPlay: number;
   swordmasterInPlay: number;
