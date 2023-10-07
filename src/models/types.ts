@@ -1,10 +1,6 @@
 export type Game = {
   numPlayers: number;
   stateHistory: GameState[];
-  conflictDeck: ConflictCard[];
-  imperiumDeck: ImperiumCard[];
-  availableImperiumCards: ImperiumCard[];
-  intrigueDeck: IntrigueCard[];
 }
 
 export type GameState = {
@@ -12,6 +8,10 @@ export type GameState = {
   currentPlayer: number;
   playerMap: Map<number, PlayerState>;
   delayedEffects: Map<number, GameEffectChoice>;
+  intrigueDeck: IntrigueCard[];
+  conflictDeck: ConflictCard[];
+  imperiumDeck: ImperiumCard[];
+  availableImperiumCards: ImperiumCard[];
 }
 
 export type PlayerColor = "red" | "blue" | "green" | "tan";
@@ -99,6 +99,11 @@ export type BoardLocation = {
   name: string;
   locationType: LocationType;
   effect: GameEffectChoice;
+  isMakerLocation: boolean;
+  extraSpice: number;
+  isMentatSpace: boolean;
+  isMentatAvailable: boolean;
+  influenceRequrement: Map<Faction, number>;
 };
 
 export type ConflictCard = {

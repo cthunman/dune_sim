@@ -96,6 +96,22 @@ export const seekAlliesCard: ImperiumCard = {
   persuasionScore: 0
 };
 
+export const foldspaceCard: ImperiumCard = {
+  name: "Foldspace",
+  destinationTypes: ["yellow", "green", "purple", "beneGesserit", "emperor", "fremen", "guild"],
+  factionAffiliations: [],
+  agentEffect: {
+    choices: new Map<string, GameEffect>([])
+  },
+  revealEffect: {
+    choices: new Map<string, GameEffect>([])
+  },
+  pickupEffect: {
+    choices: new Map<string, GameEffect>([])
+  },
+  persuasionScore: 0
+};
+
 export function createSignetRingCard(leader: Leader): ImperiumCard {
   return {
     name: "Signet Ring",

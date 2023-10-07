@@ -1,5 +1,5 @@
-import { BoardLocation, GameEffect, Resource } from "./types";
-import { applyPersuasionChangeToPlayer, applyResourceChangesToCurrentPlayer, applySoldierChangeToBattlefield, applySoldierChangeToGarrison, combineGameEffectList, doNothingEffect, givePlayerHighCouncilSeat, givePlayerSwordmaster } from "./util";
+import { BoardLocation, Faction, GameEffect, Resource } from "./types";
+import { applyPersuasionChangeToPlayer, applyResourceChangesToCurrentPlayer, applySoldierChangeToBattlefield, applySoldierChangeToGarrison, combineGameEffectList, doNothingEffect, drawCard, drawFoldspaceCard, drawIntrigueCard, givePlayerHighCouncilSeat, givePlayerSwordmaster, transferIntrigueCards } from "./util";
 
 // Green
 export const highCouncil: BoardLocation = {
@@ -19,18 +19,25 @@ export const highCouncil: BoardLocation = {
         ])
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const mentat: BoardLocation = {
   name: "Mentat",
-  // resourceCost: new Map<Resource, number>([ 
-  //   ["solari", 2]
-  // ]),
   locationType: "green",
   effect: {
     choices: new Map<string, GameEffect>([])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: true,
+  isMentatAvailable: true,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const rallyTroops: BoardLocation = {
@@ -97,7 +104,12 @@ export const rallyTroops: BoardLocation = {
         ])
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const swordmaster: BoardLocation = {
@@ -117,7 +129,12 @@ export const swordmaster: BoardLocation = {
         ])
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const hallOfOratory: BoardLocation = {
@@ -141,7 +158,12 @@ export const hallOfOratory: BoardLocation = {
         ])
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 // Purple
@@ -150,8 +172,28 @@ export const carthag: BoardLocation = {
   // resourceCost: new Map<Resource, number>([]),
   locationType: "purple",
   effect: {
-    choices: new Map<string, GameEffect>([])
-  }
+    choices: new Map<string, GameEffect>([
+      [
+        "Receive 1 Troop to Battlefield and Draw Intrigue Card",
+        combineGameEffectList([
+          applySoldierChangeToBattlefield(1),
+          drawIntrigueCard()
+        ])
+      ],
+      [
+        "Receive 1 Troop to Garrison and Draw Intrigue Card",
+        combineGameEffectList([
+          applySoldierChangeToGarrison(1),
+          drawIntrigueCard()
+        ])
+      ]
+    ])
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const arrakeen: BoardLocation = {
@@ -159,31 +201,98 @@ export const arrakeen: BoardLocation = {
   // resourceCost: new Map<Resource, number>([]),
   locationType: "purple",
   effect: {
-    choices: new Map<string, GameEffect>([])
-  }
+    choices: new Map<string, GameEffect>([
+      [
+        "Receive 1 Troop to Battlefield and Draw Card",
+        combineGameEffectList([
+          applySoldierChangeToBattlefield(1),
+          drawCard()
+        ])
+      ],
+      [
+        "Receive 1 Troop to Garrison and Draw Card",
+        combineGameEffectList([
+          applySoldierChangeToGarrison(1),
+          drawCard()
+        ])
+      ]
+    ])
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const researchStation: BoardLocation = {
   name: "Research Station",
-  // resourceCost: new Map<Resource, number>([
-  //   ["water", 2]
-  // ]),
   locationType: "purple",
   effect: {
-    choices: new Map<string, GameEffect>([])
-  }
+    choices: new Map<string, GameEffect>([
+      [
+        "Pay 2 Water Draw 3 Cards",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["water", -2]
+            ])
+          ),
+          drawCard(),
+          drawCard(),
+          drawCard()
+        ])
+      ]
+    ])
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
+// TODO: #7 Figure out how to require 2 influence with Fremen
 export const sietchTabr: BoardLocation = {
   name: "Sietch Tabr",
-  // resourceCost: new Map<Resource, number>([]),
   locationType: "purple",
   effect: {
-    choices: new Map<string, GameEffect>([])
-  }
+    choices: new Map<string, GameEffect>([
+      [
+        "Receive 1 Troop to Battlefield and Get 1 Water",
+        combineGameEffectList([
+          applySoldierChangeToBattlefield(1),
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["water", 1]
+            ])
+          ),
+        ])
+      ],
+      [
+        "Receive 1 Troop to Garrison and Get 1 Water",
+        combineGameEffectList([
+          applySoldierChangeToGarrison(1),
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["water", 1]
+            ])
+          ),
+        ])
+      ]
+    ])
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([
+    ["fremenFaction", 2]
+  ])
 }
 
 // Yellow
+// TODO: #8 Figure out bonus spice on these locations.
 export const theGreatFlat: BoardLocation = {
   name: "The Great Flat",
   locationType: "yellow",
@@ -199,7 +308,12 @@ export const theGreatFlat: BoardLocation = {
         ),
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const haggaBasin: BoardLocation = {
@@ -217,7 +331,12 @@ export const haggaBasin: BoardLocation = {
         ),
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const imperialBasin: BoardLocation = {
@@ -234,7 +353,12 @@ export const imperialBasin: BoardLocation = {
         ),
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const secureContract: BoardLocation = {
@@ -252,7 +376,12 @@ export const secureContract: BoardLocation = {
         ),
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const sellMelange: BoardLocation = {
@@ -298,15 +427,17 @@ export const sellMelange: BoardLocation = {
         ),
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 // Bene Gesserit
 export const selectiveBreeding: BoardLocation = {
   name: "Selective Breeding",
-  // resourceCost: new Map<Resource, number>([
-  //   ["solari", 2]
-  // ]),
   locationType: "beneGesserit",
   effect: {
     choices: new Map<string, GameEffect>([
@@ -326,11 +457,18 @@ export const selectiveBreeding: BoardLocation = {
               ["spice", -2]
             ])
           ),
-          doNothingEffect() // TODO: #1 Write Discard Card and Draw 2 Cards function
+          doNothingEffect(), // TODO: #9 Figure out how to handle discard a card choice.
+          drawCard(),
+          drawCard()
         ])
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const secrets: BoardLocation = {
@@ -342,12 +480,17 @@ export const secrets: BoardLocation = {
       [
         "Draw 1 Intrigue Card and Steal Intrigue Card from Opponents with 4 or More",
         combineGameEffectList([
-          doNothingEffect(), // TODO: #2 Write Draw N Intrigue Card Function
-          doNothingEffect() // TODO: #3 Write Steal Intrigue Card from Opponents with 4 or More Function
+          drawIntrigueCard(),
+          transferIntrigueCards() // TODO: #3 Write Steal Intrigue Card from Opponents with 4 or More Function
         ])
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 // Fremen
@@ -365,7 +508,12 @@ export const stillsuits: BoardLocation = {
         ),
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const hardyWarriors: BoardLocation = {
@@ -408,49 +556,198 @@ export const hardyWarriors: BoardLocation = {
         ])
       ]
     ])
-  }
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 // Guild
 export const foldspace: BoardLocation = {
   name: "Foldspace",
-  // resourceCost: new Map<Resource, number>([]),
-  locationType: "fremen",
+  locationType: "guild",
   effect: {
-    choices: new Map<string, GameEffect>([])
-  }
+    choices: new Map<string, GameEffect>([
+      [
+        "Draw Foldspace Card",
+        drawFoldspaceCard()
+      ]
+    ])
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const heighliner: BoardLocation = {
   name: "Heighliner",
-  // resourceCost: new Map<Resource, number>([
-  //   ["spice", 6]
-  // ]),
-  locationType: "fremen",
+  locationType: "guild",
   effect: {
-    choices: new Map<string, GameEffect>([])
-  }
+    choices: new Map<string, GameEffect>([
+      [
+        "Pay 6 Spice to Gain 2 Water and 5 Troops in Garrison",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["spice", -6],
+              ["water", 2]
+            ])
+          ),
+          applySoldierChangeToGarrison(5)
+        ])
+      ],
+      [
+        "Pay 6 Spice to Gain 2 Water and 4 Troops in Garrison and 1 in Battlefield",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["spice", -6],
+              ["water", 2]
+            ])
+          ),
+          applySoldierChangeToGarrison(4),
+          applySoldierChangeToBattlefield(1)
+        ])
+      ],
+      [
+        "Pay 6 Spice to Gain 2 Water and 3 Troops in Garrison and 2 in Battlefield",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["spice", -6],
+              ["water", 2]
+            ])
+          ),
+          applySoldierChangeToGarrison(3),
+          applySoldierChangeToBattlefield(2)
+        ])
+      ],
+      [
+        "Pay 6 Spice to Gain 2 Water and 2 Troops in Garrison and 3 in Battlefield",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["spice", -6],
+              ["water", 2]
+            ])
+          ),
+          applySoldierChangeToGarrison(2),
+          applySoldierChangeToBattlefield(3)
+        ])
+      ],
+      [
+        "Pay 6 Spice to Gain 2 Water and 1 Troops in Garrison and 4 in Battlefield",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["spice", -6],
+              ["water", 2]
+            ])
+          ),
+          applySoldierChangeToGarrison(1),
+          applySoldierChangeToBattlefield(4)
+        ])
+      ],
+      [
+        "Pay 6 Spice to Gain 2 Water and 5 Troops in Battlefield",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["spice", -6],
+              ["water", 2]
+            ])
+          ),
+          applySoldierChangeToBattlefield(5)
+        ])
+      ],
+    ])
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 // Emperor
 export const wealth: BoardLocation = {
   name: "Wealth",
-  // resourceCost: new Map<Resource, number>([]),
-  locationType: "fremen",
+  locationType: "emperor",
   effect: {
-    choices: new Map<string, GameEffect>([])
-  }
+    choices: new Map<string, GameEffect>([
+      [
+        "Gain 2 solari",
+        applyResourceChangesToCurrentPlayer(
+          new Map<Resource, number>([
+            ["solari", 2]
+          ])
+        )
+      ]
+    ])
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const conspire: BoardLocation = {
   name: "Conspire",
-  // resourceCost: new Map<Resource, number>([
-  //   ["spice", 4]
-  // ]),
-  locationType: "fremen",
+  locationType: "emperor",
   effect: {
-    choices: new Map<string, GameEffect>([])
-  }
+    choices: new Map<string, GameEffect>([
+      [
+        "Pay 4 Spice to Gain 5 Solari and 2 Troops in Garrison and Draw an Intrigue Card",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["spice", -4],
+              ["solari", 5]
+            ])
+          ),
+          applySoldierChangeToGarrison(2),
+          drawIntrigueCard()
+        ])
+      ],
+      [
+        "Pay 4 Spice to Gain 5 Solari and 1 Troops in Battlefield and 1 in Garrison and Draw an Intrigue Card",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["spice", -4],
+              ["solari", 5]
+            ])
+          ),
+          applySoldierChangeToBattlefield(1),
+          applySoldierChangeToGarrison(1),
+          drawIntrigueCard()
+        ])
+      ],
+      [
+        "Pay 4 Spice to Gain 5 Solari and 2 Troops in Battlefield and Draw an Intrigue Card",
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["spice", -4],
+              ["solari", 5]
+            ])
+          ),
+          applySoldierChangeToBattlefield(2),
+          drawIntrigueCard()
+        ])
+      ],
+    ])
+  },
+  isMakerLocation: false,
+  extraSpice: 0,
+  isMentatSpace: false,
+  isMentatAvailable: false,
+  influenceRequrement: new Map<Faction, number>([])
 }
 
 export const fullLocationList: BoardLocation[] = [
