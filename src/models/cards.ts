@@ -1,8 +1,7 @@
-import { GameEffect, GameState, ImperiumCard, Leader } from "./types";
-import { getCurrentPlayer } from "./util";
+import { GameEffect, ImperiumCard, Leader } from "./types";
 
 export const convincingArgumentCard: ImperiumCard = {
-  name: "",
+  name: "Convincing Argument",
   destinationTypes: [],
   factionAffiliations: [],
   agentEffect: {

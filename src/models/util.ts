@@ -89,8 +89,8 @@ export function applyResourceChangesToCurrentPlayer(resourceMap: Map<Resource, n
     if (!currentPlayer) {
       throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
     }
-    for (let [resource, amount] of resourceMap.entries()) {
-      let currentAmount = currentPlayer.resources.get(resource) || 0;
+    for (const [resource, amount] of resourceMap.entries()) {
+      const currentAmount = currentPlayer.resources.get(resource) || 0;
       currentPlayer.resources.set(resource, currentAmount + amount);
     }
     return game;
@@ -116,9 +116,14 @@ export function advanceGameToNextPlayer(game: GameState): GameState {
 }
 
 export function createInitialGameState(playerStates: PlayerState[]): GameState {
-  let playerMap = new Map<number, PlayerState>();
-  let delayedEffectsMap = new Map<number, GameEffectChoice>();
+  const playerMap = new Map<number, PlayerState>();
+  const delayedEffectsMap = new Map<number, GameEffectChoice>();
   playerStates.forEach((playerState, index) => {
+    const shuffledDeck = shuffle(playerState.deck);
+
+    playerState.deck = shuffledDeck.slice(5); 
+    playerState.hand = shuffledDeck.slice(0, 5); 
+
     playerMap.set(index, playerState);
   });
   return {
@@ -173,7 +178,7 @@ export function createEmptyInfluenceMap(): Map<Faction, number> {
 }
 
 export function createEmptyResourceMap(): Map<Resource, number> {
-  let resourceMap = new Map<Resource, number>();
+  const resourceMap = new Map<Resource, number>();
   resourceMap.set("spice", 0);
   resourceMap.set("solari", 0);
   resourceMap.set("water", 0);
@@ -181,7 +186,7 @@ export function createEmptyResourceMap(): Map<Resource, number> {
 }
 
 export function createInitialResourceMap(): Map<Resource, number> {
-  let resourceMap = new Map<Resource, number>();
+  const resourceMap = new Map<Resource, number>();
   resourceMap.set("spice", 0);
   resourceMap.set("solari", 0);
   resourceMap.set("water", 1);

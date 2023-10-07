@@ -1,4 +1,4 @@
-import { BoardLocation, GameEffect, GameState, Resource } from "./types";
+import { BoardLocation, GameEffect, Resource } from "./types";
 import { applyResourceChangesToCurrentPlayer, combineGameEffectList, doNothingEffect } from "./util";
 
 // Green

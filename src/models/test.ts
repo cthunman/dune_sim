@@ -1,6 +1,5 @@
 import { earlThorvald, glossuRabban, ilbanRichese, paulAtreides } from "./leaders";
 import { GameEffect, GameState, PlayerAgentTurn, PlayerState } from "./types";
-import _ from 'lodash';
 import { haggaBasin } from "./locations";
 import {
   advanceGameToNextPlayer,
@@ -116,8 +115,8 @@ const firstTurn: PlayerAgentTurn = {
 // }
 
 console.log(initialState);
-// const nextState = applyPlayerTurn(initialState, firstTurn);
-// console.log(nextState);
+const nextState = applyPlayerTurn(initialState, firstTurn);
+console.log(nextState);
 // console.log(isGameStateLegal(nextState));
 // const thirdState = applyPlayerTurn(nextState, secondTurn);
 // console.log(thirdState);
