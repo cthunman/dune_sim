@@ -1,19 +1,3 @@
-class Point {
-  x: number;
-  y: number;
-
-  constructor(x: number = 0, y: number = 0) {
-    this.x = x;
-    this.y = y;
-  }
-}
-
-const pt = new Point();
-pt.x = 5;
-pt.y = 0;
-
-console.log(pt);
-
 function shuffle<T>(array: T[]): T[] {
   const shuffled = array.slice();  // Create a copy of the original array
   for (let i = shuffled.length - 1; i > 0; i--) {
