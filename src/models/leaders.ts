@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { GameEffect, GameEffectChoice, GameState, Leader, PlayerState, Resource } from "./types";
-import { applyResourceChangesToCurrentPlayer, applySoldierChangeToBattlefield, applySoldierChangeToGarrison, applySoldiersToBattlefieldAndGarrison } from "./util";
+import { applyResourceChangesToCurrentPlayer, applySoldiersToBattlefieldAndGarrison } from "./util";
 
 export const arianaThorvald: Leader = {
   name: "Countess Ariana Thorvald",

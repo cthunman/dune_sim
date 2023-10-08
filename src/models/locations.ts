@@ -1,5 +1,5 @@
 import { BoardLocation, Faction, GameEffect, Resource } from "./types";
-import { applyPersuasionChangeToPlayer, applyResourceChangesToCurrentPlayer, applySoldierChangeToBattlefield, applySoldierChangeToGarrison, combineGameEffectList, doNothingEffect, drawCard, drawFoldspaceCard, drawIntrigueCard, givePlayerHighCouncilSeat, givePlayerSwordmaster, transferIntrigueCards } from "./util";
+import { applyInfluenceChangesToCurrentPlayer, applyPersuasionChangeToPlayer, applyResourceChangesToCurrentPlayer, applySoldierChangeToBattlefield, applySoldierChangeToGarrison, combineGameEffectList, doNothingEffect, drawCard, drawFoldspaceCard, drawIntrigueCard, givePlayerHighCouncilSeat, givePlayerSwordmaster, transferIntrigueCards } from "./util";
 
 // Green
 export const highCouncil: BoardLocation = {
@@ -443,11 +443,18 @@ export const selectiveBreeding: BoardLocation = {
     choices: new Map<string, GameEffect>([
       [
         "Pay 2 Spice",
-        applyResourceChangesToCurrentPlayer(
-          new Map<Resource, number>([
-            ["spice", -2]
-          ])
-        ),
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["spice", -2]
+            ])
+          ),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["beneGesseritFaction", 1]
+            ])
+          ),
+        ])
       ],
       [
         "Pay 2 Spice Discard a Card and Draw 2 Cards",
@@ -455,6 +462,11 @@ export const selectiveBreeding: BoardLocation = {
           applyResourceChangesToCurrentPlayer(
             new Map<Resource, number>([
               ["spice", -2]
+            ])
+          ),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["beneGesseritFaction", 1]
             ])
           ),
           doNothingEffect(), // TODO: #9 Figure out how to handle discard a card choice.
@@ -473,7 +485,6 @@ export const selectiveBreeding: BoardLocation = {
 
 export const secrets: BoardLocation = {
   name: "Secrets",
-  // resourceCost: new Map<Resource, number>([]),
   locationType: "beneGesserit",
   effect: {
     choices: new Map<string, GameEffect>([
@@ -481,6 +492,11 @@ export const secrets: BoardLocation = {
         "Draw 1 Intrigue Card and Steal Intrigue Card from Opponents with 4 or More",
         combineGameEffectList([
           drawIntrigueCard(),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["beneGesseritFaction", 1]
+            ])
+          ),
           transferIntrigueCards() // TODO: #3 Write Steal Intrigue Card from Opponents with 4 or More Function
         ])
       ]
@@ -501,11 +517,18 @@ export const stillsuits: BoardLocation = {
     choices: new Map<string, GameEffect>([
       [
         "Gain 1 Water",
-        applyResourceChangesToCurrentPlayer(
-          new Map<Resource, number>([
-            ["water", 1]
-          ])
-        ),
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["water", 1]
+            ])
+          ),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["fremenFaction", 1]
+            ])
+          ),
+        ])
       ]
     ])
   },
@@ -529,6 +552,11 @@ export const hardyWarriors: BoardLocation = {
               ["water", -1]
             ])
           ),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["fremenFaction", 1]
+            ])
+          ),
           applySoldierChangeToBattlefield(2)
         ])
       ],
@@ -538,6 +566,11 @@ export const hardyWarriors: BoardLocation = {
           applyResourceChangesToCurrentPlayer(
             new Map<Resource, number>([
               ["water", -1]
+            ])
+          ),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["fremenFaction", 1]
             ])
           ),
           applySoldierChangeToBattlefield(1),
@@ -550,6 +583,11 @@ export const hardyWarriors: BoardLocation = {
           applyResourceChangesToCurrentPlayer(
             new Map<Resource, number>([
               ["water", -1]
+            ])
+          ),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["fremenFaction", 1]
             ])
           ),
           applySoldierChangeToGarrison(2)
@@ -572,7 +610,14 @@ export const foldspace: BoardLocation = {
     choices: new Map<string, GameEffect>([
       [
         "Draw Foldspace Card",
-        drawFoldspaceCard()
+        combineGameEffectList([
+          drawFoldspaceCard(),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["guildFaction", 1]
+            ])
+          )
+        ])
       ]
     ])
   },
@@ -597,7 +642,12 @@ export const heighliner: BoardLocation = {
               ["water", 2]
             ])
           ),
-          applySoldierChangeToGarrison(5)
+          applySoldierChangeToGarrison(5),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["guildFaction", 1]
+            ])
+          ),
         ])
       ],
       [
@@ -610,7 +660,12 @@ export const heighliner: BoardLocation = {
             ])
           ),
           applySoldierChangeToGarrison(4),
-          applySoldierChangeToBattlefield(1)
+          applySoldierChangeToBattlefield(1),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["guildFaction", 1]
+            ])
+          ),
         ])
       ],
       [
@@ -623,7 +678,12 @@ export const heighliner: BoardLocation = {
             ])
           ),
           applySoldierChangeToGarrison(3),
-          applySoldierChangeToBattlefield(2)
+          applySoldierChangeToBattlefield(2),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["guildFaction", 1]
+            ])
+          )
         ])
       ],
       [
@@ -636,7 +696,12 @@ export const heighliner: BoardLocation = {
             ])
           ),
           applySoldierChangeToGarrison(2),
-          applySoldierChangeToBattlefield(3)
+          applySoldierChangeToBattlefield(3),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["guildFaction", 1]
+            ])
+          ),
         ])
       ],
       [
@@ -649,7 +714,12 @@ export const heighliner: BoardLocation = {
             ])
           ),
           applySoldierChangeToGarrison(1),
-          applySoldierChangeToBattlefield(4)
+          applySoldierChangeToBattlefield(4),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["guildFaction", 1]
+            ])
+          ),
         ])
       ],
       [
@@ -661,7 +731,12 @@ export const heighliner: BoardLocation = {
               ["water", 2]
             ])
           ),
-          applySoldierChangeToBattlefield(5)
+          applySoldierChangeToBattlefield(5),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["guildFaction", 1]
+            ])
+          ),
         ])
       ],
     ])
@@ -681,11 +756,18 @@ export const wealth: BoardLocation = {
     choices: new Map<string, GameEffect>([
       [
         "Gain 2 solari",
-        applyResourceChangesToCurrentPlayer(
-          new Map<Resource, number>([
-            ["solari", 2]
-          ])
-        )
+        combineGameEffectList([
+          applyResourceChangesToCurrentPlayer(
+            new Map<Resource, number>([
+              ["solari", 2]
+            ])
+          ),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["emperorFaction", 1]
+            ])
+          ),
+        ])
       ]
     ])
   },
@@ -711,6 +793,11 @@ export const conspire: BoardLocation = {
             ])
           ),
           applySoldierChangeToGarrison(2),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["emperorFaction", 1]
+            ])
+          ),
           drawIntrigueCard()
         ])
       ],
@@ -725,6 +812,11 @@ export const conspire: BoardLocation = {
           ),
           applySoldierChangeToBattlefield(1),
           applySoldierChangeToGarrison(1),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["emperorFaction", 1]
+            ])
+          ),
           drawIntrigueCard()
         ])
       ],
@@ -738,6 +830,11 @@ export const conspire: BoardLocation = {
             ])
           ),
           applySoldierChangeToBattlefield(2),
+          applyInfluenceChangesToCurrentPlayer(
+            new Map<Faction, number>([
+              ["emperorFaction", 1]
+            ])
+          ),
           drawIntrigueCard()
         ])
       ],

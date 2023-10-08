@@ -76,7 +76,6 @@ export function applySoldiersToBattlefieldAndGarrison(numSoldiers: number): Map<
     const description = `Soldiers: ${soldiersForBattlefield} to battlefield, ${soldiersForGarrison} to garrison`;
     combinations.set(description, combinedFunction);
   }
-
   return combinations;
 }
 
@@ -84,6 +83,24 @@ export function doNothingEffect(): GameEffect {
   return function (game: GameState): GameState {
     return game
   }
+}
+
+// NEEDS_TESTING
+export function applyInfluenceChangesToCurrentPlayer(influenceMap: Map<Faction, number>) {
+  return function (game: GameState): GameState {
+    const currentPlayer = game.playerMap.get(game.currentPlayer);
+    if (!currentPlayer) {
+      throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
+    }
+    influenceMap.forEach((change, faction) => {
+      const currentInfluence = currentPlayer.influenceMap.get(faction) || 0;
+      currentPlayer.influenceMap.set(faction, Math.min(currentInfluence + change, 7));
+    });
+    return {
+      ...game,
+      playerMap: new Map(game.playerMap).set(game.currentPlayer, currentPlayer),
+    };
+  };
 }
 
 export function applyResourceChangesToCurrentPlayer(resourceMap: Map<Resource, number>) {
