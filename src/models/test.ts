@@ -1,5 +1,5 @@
 import { earlThorvald, glossuRabban, ilbanRichese, paulAtreides } from "./leaders";
-import { GameEffect, GameState, PlayerAgentTurn, PlayerState } from "./types";
+import { GameEffect, GameState, PlayerAgentTurn } from "./types";
 import { haggaBasin } from "./locations";
 import {
   advanceGameToNextPlayer,
@@ -20,7 +20,8 @@ function getGameEffectsFromPlayerTurn(playerTurn: PlayerAgentTurn): GameEffect[]
   const gameEffectList: GameEffect[] = [];
   const cardPlayed = playerTurn.cardPlayed;
   const imperiumCardChoice = cardPlayed.effectChoice;
-  const imperiumCardEffect = cardPlayed.cardPlayed.agentEffect.choices.get(imperiumCardChoice);
+  const cardChoices = cardPlayed.cardPlayed.agentEffect(playerTurn.gameState)
+  const imperiumCardEffect = cardChoices.choices.get(imperiumCardChoice);
   if (imperiumCardEffect) {
     gameEffectList.push(imperiumCardEffect);
   }
@@ -83,20 +84,8 @@ export function isGameStateLegal(game: GameState): boolean {
   return true;
 }
 
-// TODO: #5 Figure out how to instantiate a signet ring card.
-// const firstTurn: PlayerAgentTurn = {
-//   cardPlayed: signetRingCard,
-//   agentLocation: haggaBasin,
-//   intrigueCardsPlayed: []
-// }
-
-// const secondTurn: PlayerAgentTurn = {
-//   cardPlayed: signetRingCard,
-//   agentLocation: haggaBasin,
-//   intrigueCardsPlayed: []
-// }
-
 const firstTurn: PlayerAgentTurn = {
+  gameState: initialState,
   cardPlayed: {
     cardPlayed: diplomacyCard,
     effectChoice: ""
@@ -108,16 +97,24 @@ const firstTurn: PlayerAgentTurn = {
   intrigueCardsPlayed: []
 }
 
-// const secondTurn: PlayerAgentTurn = {
-//   cardPlayed: diplomacyCard,
-//   agentLocation: haggaBasin,
-//   intrigueCardsPlayed: []
-// }
-
 console.log(initialState);
 const nextState = applyPlayerTurn(initialState, firstTurn);
 console.log(nextState);
-// console.log(isGameStateLegal(nextState));
-// const thirdState = applyPlayerTurn(nextState, secondTurn);
-// console.log(thirdState);
-// console.log(isGameStateLegal(thirdState));
+console.log(isGameStateLegal(nextState));
+
+const secondTurn: PlayerAgentTurn = {
+  gameState: nextState,
+  cardPlayed: {
+    cardPlayed: diplomacyCard,
+    effectChoice: ""
+  },
+  agentLocation: {
+    boardLocation: haggaBasin,
+    effectChoice: "Pay 1 Water Gain 2 Spice"
+  },
+  intrigueCardsPlayed: []
+}
+
+const thirdState = applyPlayerTurn(nextState, secondTurn);
+console.log(thirdState);
+console.log(isGameStateLegal(thirdState));

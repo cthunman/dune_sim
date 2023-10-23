@@ -4,10 +4,10 @@ import { applyResourceChangesToCurrentPlayer, applySoldiersToBattlefieldAndGarri
 
 export const arianaThorvald: Leader = {
   name: "Countess Ariana Thorvald",
-  leaderEffect: function (game: GameState): GameState {
+  leaderEffect: function (_game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: (player: PlayerState) => ({ choices: new Map<string, GameEffect>([]) }),
+  signetRingEffect: (_state: GameState) => ({ choices: new Map<string, GameEffect>([]) }),
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
   }
@@ -15,10 +15,14 @@ export const arianaThorvald: Leader = {
 
 export const glossuRabban: Leader = {
   name: "Glossu \"The Beast\" Rabban",
-  leaderEffect: function (game: GameState): GameState {
+  leaderEffect: function (_game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (player: PlayerState): GameEffectChoice {
+  signetRingEffect: function (state: GameState): GameEffectChoice {
+    const player = state.playerMap.get(state.currentPlayer);
+    if (!player) {
+      throw new Error("Player not defined. Illegal game state.")
+    }
     const hasAllianceWithAnyFaction = Array.from(player.allianceMap.values()).some(value => value > 0);
     if (hasAllianceWithAnyFaction) {
       return { choices: applySoldiersToBattlefieldAndGarrison(2) };
@@ -32,10 +36,10 @@ export const glossuRabban: Leader = {
 
 export const baronHarkonnen: Leader = {
   name: "Baron Vladimir Harkonnen",
-  leaderEffect: function (game: GameState): GameState {
+  leaderEffect: function (_game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (player: PlayerState) {
+  signetRingEffect: function (_state: GameState) {
     return { choices: new Map<string, GameEffect>([]) }
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
@@ -45,10 +49,10 @@ export const baronHarkonnen: Leader = {
 
 export const paulAtreides: Leader = {
   name: "Paul Atreides",
-  leaderEffect: function (game: GameState): GameState {
+  leaderEffect: function (_game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (player: PlayerState) {
+  signetRingEffect: function (_state: GameState) {
     return { choices: new Map<string, GameEffect>([]) }
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
@@ -58,10 +62,10 @@ export const paulAtreides: Leader = {
 
 export const ilbanRichese: Leader = {
   name: "Count Ilban Richese",
-  leaderEffect: function (game: GameState): GameState {
+  leaderEffect: function (_game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (player: PlayerState) {
+  signetRingEffect: function (_state: GameState) {
     return { choices: new Map<string, GameEffect>([]) }
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
@@ -74,10 +78,10 @@ export const ilbanRichese: Leader = {
 
 export const earlThorvald: Leader = {
   name: "Earl Memnon Thorvald",
-  leaderEffect: function (game: GameState): GameState {
+  leaderEffect: function (_game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (player: PlayerState) {
+  signetRingEffect: function (_state: GameState) {
     return {
       choices: new Map<string, GameEffect>([
         [
@@ -98,10 +102,10 @@ export const earlThorvald: Leader = {
 
 export const letoAtreides: Leader = {
   name: "Duke Leto Atreides",
-  leaderEffect: function (game: GameState): GameState {
+  leaderEffect: function (_game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (player: PlayerState) {
+  signetRingEffect: function (_state: GameState) {
     return { choices: new Map<string, GameEffect>([]) }
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
@@ -111,10 +115,10 @@ export const letoAtreides: Leader = {
 
 export const helenaRichese: Leader = {
   name: "Helena Richese",
-  leaderEffect: function (game: GameState): GameState {
+  leaderEffect: function (_game: GameState): GameState {
     throw new Error("Function not implemented.");
   },
-  signetRingEffect: function (player: PlayerState) {
+  signetRingEffect: function (_state: GameState) {
     return { choices: new Map<string, GameEffect>([]) }
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {

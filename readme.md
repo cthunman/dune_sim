@@ -1,3 +1,10 @@
+In order to turn on the app, run:
+`npm run dev`
+
+Right now almost nothing happens, but it will create a new game. Next up is to define some inputs.
+
+------
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

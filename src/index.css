@@ -106,7 +106,7 @@ p {
 
 
 .player-highlight {
-  outline: 3px solid green;
+  outline: 4px solid green;
   background-color: #3a3a3a;  
   /* Additional styles for highlighting, if desired */
 }

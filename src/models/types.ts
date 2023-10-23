@@ -45,7 +45,8 @@ export type Leader = {
   leaderEffect: GameEffect;
   // signetRingEffect: GameEffectChoice;
   // Can I model this without the player state?
-  signetRingEffect: (player: PlayerState) => GameEffectChoice;
+  signetRingEffect: (gameState: GameState) => GameEffectChoice;
+  // signetRingEffect: (player: PlayerState) => GameEffectChoice;
 };
 
 export type GameEffect = (game: GameState) => GameState;
@@ -58,8 +59,8 @@ export type ImperiumCard = {
   destinationTypes: LocationType[];
   factionAffiliations: Faction[];
   pickupEffect: GameEffectChoice;
-  agentEffect: GameEffectChoice;
-  revealEffect: GameEffectChoice;
+  agentEffect: (state: GameState) => GameEffectChoice;
+  revealEffect: (state: GameState) => GameEffectChoice;
   persuasionScore: number;
 };
 
@@ -90,6 +91,7 @@ export type PlayBoardLocation = {
 }
 
 export type PlayerAgentTurn = {
+  gameState: GameState;
   cardPlayed: PlayImperiumCard;
   agentLocation: PlayBoardLocation;
   intrigueCardsPlayed: PlayIntrigueCard[];

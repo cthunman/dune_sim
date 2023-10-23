@@ -11,7 +11,7 @@ function GameComponent() {
   const p3 = createInitialPlayerState(paulAtreides, "green");
   const p4 = createInitialPlayerState(ilbanRichese, "tan");
   const initialGameState = createInitialGameState([p1, p2, p3, p4]);
-  const [game, setGame] = useState({
+  const [game, _setGame] = useState({
     numPlayers: 4,
     stateHistory: [initialGameState],
     currentGameState: initialGameState,

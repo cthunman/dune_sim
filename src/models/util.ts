@@ -67,7 +67,6 @@ export function applySoldiersToBattlefieldAndGarrison(numSoldiers: number): Map<
   for (let i = 0; i <= numSoldiers; i++) {
     const soldiersForBattlefield = i;
     const soldiersForGarrison = numSoldiers - i;
-    // Create the combined function
     const combinedFunction = (game: GameState): GameState => {
       let newGameState = applySoldierChangeToBattlefield(soldiersForBattlefield)(game);
       newGameState = applySoldierChangeToGarrison(soldiersForGarrison)(newGameState);
