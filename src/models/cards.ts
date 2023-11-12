@@ -43,7 +43,7 @@ export const convincingArgumentCard: ImperiumCard = {
 
 export const daggerCard: ImperiumCard = {
   name: "Dagger",
-  destinationTypes: [],
+  destinationTypes: ["green"],
   factionAffiliations: [],
   agentEffect: (_state: GameState) => {
     return {
@@ -65,7 +65,7 @@ export const daggerCard: ImperiumCard = {
 
 export const diplomacyCard: ImperiumCard = {
   name: "Diplomacy",
-  destinationTypes: [],
+  destinationTypes: ["beneGesserit", "emperor", "fremen", "guild"],
   factionAffiliations: [],
   agentEffect: (_state: GameState) => {
     return {
@@ -87,7 +87,7 @@ export const diplomacyCard: ImperiumCard = {
 
 export const duneTheDesertPlanetCard: ImperiumCard = {
   name: "Dune The Desert Planet",
-  destinationTypes: [],
+  destinationTypes: ["yellow"],
   factionAffiliations: [],
   agentEffect: (_state: GameState) => {
     return {
@@ -109,7 +109,7 @@ export const duneTheDesertPlanetCard: ImperiumCard = {
 
 export const reconnaissanceCard: ImperiumCard = {
   name: "Reconnaissance",
-  destinationTypes: [],
+  destinationTypes: ["purple"],
   factionAffiliations: [],
   agentEffect: (_state: GameState) => {
     return {
