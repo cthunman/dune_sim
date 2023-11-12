@@ -38,15 +38,12 @@ export type PlayerState = {
   victoryPointCount: number;
 }
 
-// export type LeaderEffect = Record<string, never>
 export type Leader = {
   name: string;
   gameStartEffect: (playerState: PlayerState) => PlayerState;
   leaderEffect: GameEffect;
-  // signetRingEffect: GameEffectChoice;
-  // Can I model this without the player state?
   signetRingEffect: (gameState: GameState) => GameEffectChoice;
-  // signetRingEffect: (player: PlayerState) => GameEffectChoice;
+  ignoreEnemyAgentsOnLocationTypes: LocationType[];
 };
 
 export type GameEffect = (game: GameState) => GameState;

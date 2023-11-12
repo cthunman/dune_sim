@@ -10,7 +10,8 @@ export const arianaThorvald: Leader = {
   signetRingEffect: (_state: GameState) => ({ choices: new Map<string, GameEffect>([]) }),
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
-  }
+  },
+  ignoreEnemyAgentsOnLocationTypes: []
 }
 
 export const glossuRabban: Leader = {
@@ -21,7 +22,7 @@ export const glossuRabban: Leader = {
   signetRingEffect: function (state: GameState): GameEffectChoice {
     const player = state.playerMap.get(state.currentPlayer);
     if (!player) {
-      throw new Error("Player not defined. Illegal game state.")
+      throw new Error("Player not defined. Illegal game state.");
     }
     const hasAllianceWithAnyFaction = Array.from(player.allianceMap.values()).some(value => value > 0);
     if (hasAllianceWithAnyFaction) {
@@ -31,7 +32,8 @@ export const glossuRabban: Leader = {
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
-  }
+  },
+  ignoreEnemyAgentsOnLocationTypes: []
 }
 
 export const baronHarkonnen: Leader = {
@@ -40,11 +42,12 @@ export const baronHarkonnen: Leader = {
     throw new Error("Function not implemented.");
   },
   signetRingEffect: function (_state: GameState) {
-    return { choices: new Map<string, GameEffect>([]) }
+    return { choices: new Map<string, GameEffect>([]) };
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
-  }
+  },
+  ignoreEnemyAgentsOnLocationTypes: []
 }
 
 export const paulAtreides: Leader = {
@@ -53,11 +56,12 @@ export const paulAtreides: Leader = {
     throw new Error("Function not implemented.");
   },
   signetRingEffect: function (_state: GameState) {
-    return { choices: new Map<string, GameEffect>([]) }
+    return { choices: new Map<string, GameEffect>([]) };
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
-  }
+  },
+  ignoreEnemyAgentsOnLocationTypes: []
 }
 
 export const ilbanRichese: Leader = {
@@ -66,14 +70,15 @@ export const ilbanRichese: Leader = {
     throw new Error("Function not implemented.");
   },
   signetRingEffect: function (_state: GameState) {
-    return { choices: new Map<string, GameEffect>([]) }
+    return { choices: new Map<string, GameEffect>([]) };
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     let clonedPlayerState: PlayerState = _.cloneDeep(playerState);
     let currentSolari = playerState.resources.get("solari") || 0;
     clonedPlayerState.resources.set("solari", currentSolari + 2);
     return clonedPlayerState;
-  }
+  },
+  ignoreEnemyAgentsOnLocationTypes: []
 }
 
 export const earlThorvald: Leader = {
@@ -93,11 +98,12 @@ export const earlThorvald: Leader = {
           )
         ]
       ])
-    }
+    };
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
-  }
+  },
+  ignoreEnemyAgentsOnLocationTypes: []
 }
 
 export const letoAtreides: Leader = {
@@ -106,11 +112,12 @@ export const letoAtreides: Leader = {
     throw new Error("Function not implemented.");
   },
   signetRingEffect: function (_state: GameState) {
-    return { choices: new Map<string, GameEffect>([]) }
+    return { choices: new Map<string, GameEffect>([]) };
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
-  }
+  },
+  ignoreEnemyAgentsOnLocationTypes: []
 }
 
 export const helenaRichese: Leader = {
@@ -119,9 +126,10 @@ export const helenaRichese: Leader = {
     throw new Error("Function not implemented.");
   },
   signetRingEffect: function (_state: GameState) {
-    return { choices: new Map<string, GameEffect>([]) }
+    return { choices: new Map<string, GameEffect>([]) };
   },
   gameStartEffect: function (playerState: PlayerState): PlayerState {
     return playerState;
-  }
+  },
+  ignoreEnemyAgentsOnLocationTypes: ["green", "purple"]
 }

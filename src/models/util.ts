@@ -17,6 +17,7 @@ import {
   GameState,
   ImperiumCard,
   Leader,
+  LocationType,
   PlayerColor,
   PlayerState,
   Resource,
@@ -294,17 +295,23 @@ export function givePlayerHighCouncilSeat() {
 }
 
 // NEEDS_TESTING
+// TODO: #10 Implement logic to handle intrigue cards that affect available spaces.
 export function getAvailableLocations(
   gameState: GameState,
   fullLocationList: BoardLocation[],
-  imperiumCard: ImperiumCard
+  imperiumCard: ImperiumCard,
+  ignoreAgentsLocationTypes: LocationType[],
 ): BoardLocation[] {
   const occupiedLocations: Set<string> = new Set();
-  gameState.playerMap.forEach(playerState => {
+  gameState.playerMap.forEach((playerState, playerId) => {
     playerState.agentLocations.forEach(location => {
-      occupiedLocations.add(location.name);
+      // If it is not the currentPlayer or if the location type is not in the ignore list
+      if (playerId === gameState.currentPlayer || !ignoreAgentsLocationTypes.includes(location.locationType)) {
+        occupiedLocations.add(location.name);
+      }
     });
   });
+
   return fullLocationList.filter(location => {
     // Rule 1: The location is not already occupied by an agent
     if (occupiedLocations.has(location.name)) {
