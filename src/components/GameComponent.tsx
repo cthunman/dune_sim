@@ -4,6 +4,7 @@ import { earlThorvald, glossuRabban, ilbanRichese, paulAtreides } from '../model
 import Player from './PlayerComponent';
 import Board from './BoardComponent';
 import { fullLocationList } from '../models/locations';
+import { ImperiumCard } from '../models/types';
 
 function GameComponent() {
   const p1 = createInitialPlayerState(earlThorvald, "red");
@@ -11,6 +12,7 @@ function GameComponent() {
   const p3 = createInitialPlayerState(paulAtreides, "green");
   const p4 = createInitialPlayerState(ilbanRichese, "tan");
   const initialGameState = createInitialGameState([p1, p2, p3, p4]);
+  const [selectedCard, setSelectedCard] = useState<ImperiumCard | null>(null);
   const [game, _setGame] = useState({
     numPlayers: 4,
     stateHistory: [initialGameState],
@@ -20,7 +22,9 @@ function GameComponent() {
   game.currentGameState.playerMap.forEach((playerState, playerId) => {
     const isCurrent = playerId === game.currentGameState.currentPlayer;
     playersComponents.push(
-      <Player key={playerId} playerState={playerState} isCurrent={isCurrent} />
+      <Player key={playerId} playerState={playerState} isCurrent={isCurrent} onCardClick={function (card: ImperiumCard): void {
+        throw new Error('Function not implemented.');
+      }} />
     );
   });
 
@@ -29,14 +33,12 @@ function GameComponent() {
     throw new Error("Invalid current player id");
   }
 
-  // Assume top card (last in array) is the one being considered for play
-  const currentCard = currentPlayerState.hand[currentPlayerState.hand.length - 1];
-  if (!currentCard) {
+  const currentCardBasedOnGameState = currentPlayerState.hand[currentPlayerState.hand.length - 1];
+  if (!currentCardBasedOnGameState) {
     throw new Error("Current player has no cards in hand");
   }
 
-  // Use the getAvailableLocations function
-  const availableLocations = getAvailableLocations(game.currentGameState, fullLocationList, currentCard);
+  const availableLocations = getAvailableLocations(game.currentGameState, fullLocationList, selectedCard || currentCardBasedOnGameState, []);
   console.log(availableLocations);
 
   return (
@@ -48,6 +50,7 @@ function GameComponent() {
             key={playerId}
             playerState={playerState}
             isCurrent={playerId === game.currentGameState.currentPlayer}
+            onCardClick={(card) => setSelectedCard(card)} // Pass the callback
           />
         ))}
       </div>

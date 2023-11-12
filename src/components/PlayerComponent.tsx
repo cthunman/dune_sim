@@ -1,12 +1,13 @@
-import { PlayerState } from '../models/types';
+import { ImperiumCard, PlayerState } from '../models/types';
 import CardComponent from './CardComponent';
 
 type PlayerProps = {
   playerState: PlayerState;
   isCurrent: boolean;
+  onCardClick: (card: ImperiumCard) => void;
 };
 
-function Player({ playerState, isCurrent }: PlayerProps) {
+function Player({ playerState, isCurrent, onCardClick }: PlayerProps) {
   return (
     <div className={`player ${isCurrent ? 'player-highlight' : ''}`} style={{ backgroundColor: playerState.color }}>
       {/* <div className={`player ${isCurrent ? 'player-highlight' : ''}`}> */}
@@ -41,7 +42,9 @@ function Player({ playerState, isCurrent }: PlayerProps) {
 
       <div className="player-cards">
         {playerState.hand.map((card, index) => (
-          <CardComponent key={index} card={card} />
+          <div onClick={() => onCardClick(card)} key={index}>
+            <CardComponent card={card} />
+          </div>
         ))}
       </div>
     </div>
