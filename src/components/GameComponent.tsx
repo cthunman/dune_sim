@@ -24,7 +24,7 @@ function GameComponent() {
     playersComponents.push(
       <Player key={playerId} playerState={playerState} isCurrent={isCurrent} onCardClick={function (card: ImperiumCard): void {
         throw new Error('Function not implemented.');
-      }} />
+      } } selectedCard={null} />
     );
   });
 
