@@ -50,7 +50,8 @@ function GameComponent() {
             key={playerId}
             playerState={playerState}
             isCurrent={playerId === game.currentGameState.currentPlayer}
-            onCardClick={(card) => setSelectedCard(card)} // Pass the callback
+            onCardClick={(card) => setSelectedCard(card)}
+            selectedCard={selectedCard}
           />
         ))}
       </div>

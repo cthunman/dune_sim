@@ -131,3 +131,8 @@ p {
   border-radius: 8px;
   text-align: center;
 }
+
+.selected-card {
+  border: 2px solid gold; /* Example style for highlighting */
+  box-shadow: 0 0 10px gold; /* Optional: add a shadow for more emphasis */
+}

@@ -1,13 +1,6 @@
 import _ from "lodash";
 import {
-  convincingArgumentCard,
-  createSignetRingCard,
-  daggerCard,
-  diplomacyCard,
-  duneTheDesertPlanetCard,
-  foldspaceCard,
-  reconnaissanceCard,
-  seekAlliesCard,
+  createSignetRingCard, getConvincingArgumentCard, getDaggerCard, getDiplomacyCard, getDuneTheDesertPlanetCard, getFoldspaceCard, getReconnaissanceCard, getSeekAlliesCard,
 } from "./cards";
 import {
   BoardLocation,
@@ -239,7 +232,7 @@ export function drawFoldspaceCard() {
       throw new Error(`Game state invalid. Current player value: ${game.currentPlayer}`);
     }
     const newFoldspace: ImperiumCard = {
-      ...foldspaceCard,
+      ...getFoldspaceCard(),
     };
     const updatedDiscard = [...currentPlayer.discard, newFoldspace];
     // Updating the currentPlayer state
@@ -390,12 +383,15 @@ export function createInitialPlayerState(leader: Leader, color: PlayerColor): Pl
 
 function createStartingDeck(leader: Leader): ImperiumCard[] {
   return [
-    ...Array(2).fill(convincingArgumentCard),
-    ...Array(2).fill(daggerCard),
-    ...Array(2).fill(duneTheDesertPlanetCard),
-    diplomacyCard,
-    reconnaissanceCard,
-    seekAlliesCard,
+    getConvincingArgumentCard(),
+    getConvincingArgumentCard(),
+    getDaggerCard(),
+    getDaggerCard(),
+    getDuneTheDesertPlanetCard(),
+    getDuneTheDesertPlanetCard(),
+    getDiplomacyCard(),
+    getReconnaissanceCard(),
+    getSeekAlliesCard(),
     createSignetRingCard(leader)
   ];
 }

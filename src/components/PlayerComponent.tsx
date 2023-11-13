@@ -5,12 +5,12 @@ type PlayerProps = {
   playerState: PlayerState;
   isCurrent: boolean;
   onCardClick: (card: ImperiumCard) => void;
+  selectedCard: ImperiumCard | null;
 };
 
-function Player({ playerState, isCurrent, onCardClick }: PlayerProps) {
+function Player({ playerState, isCurrent, onCardClick, selectedCard }: PlayerProps) {
   return (
     <div className={`player ${isCurrent ? 'player-highlight' : ''}`} style={{ backgroundColor: playerState.color }}>
-      {/* <div className={`player ${isCurrent ? 'player-highlight' : ''}`}> */}
       <h2 className="player-name">{playerState.leader.name}</h2>
       <p><strong>Agents:</strong> {playerState.numAgents}</p>
       <p><strong>Mentat In Play:</strong> {playerState.mentatInPlay}</p>
@@ -42,7 +42,11 @@ function Player({ playerState, isCurrent, onCardClick }: PlayerProps) {
 
       <div className="player-cards">
         {playerState.hand.map((card, index) => (
-          <div onClick={() => onCardClick(card)} key={index}>
+          <div
+            onClick={() => onCardClick(card)}
+            key={index}
+            className={card === selectedCard ? 'selected-card' : ''}
+          >
             <CardComponent card={card} />
           </div>
         ))}

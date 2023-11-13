@@ -52,6 +52,7 @@ export type GameEffectChoice = {
 }
 
 export type ImperiumCard = {
+  id: string;
   name: string;
   destinationTypes: LocationType[];
   factionAffiliations: Faction[];
